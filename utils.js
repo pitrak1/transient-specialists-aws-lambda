@@ -37,6 +37,65 @@ exports.getEquipment = async client => {
   }
 }
 
+exports.getOems = async client => {
+  try {
+    const result = await client.query(`
+      SELECT id, name
+      FROM Oems;
+    `)
+    return {
+      statusCode: 200,
+      body: result.rows,
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.getModels = async client => {
+  try {
+    const result = await client.query(`
+      SELECT
+        Models.id,
+        Models.name,
+        Oems.id AS oem_id,
+        Oems.name AS oem_name,
+      FROM Oems
+        INNER JOIN Oems ON Models.oem_id = Oems.id;
+    `)
+    return {
+      statusCode: 200,
+      body: result.rows,
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.getTypes = async client => {
+  try {
+    const result = await client.query(`
+      SELECT id, name
+      FROM Types;
+    `)
+    return {
+      statusCode: 200,
+      body: result.rows,
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
 exports.createEquipment = async (client, fields) => {
   try {
     await client.query(`

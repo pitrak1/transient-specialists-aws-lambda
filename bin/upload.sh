@@ -1,14 +1,18 @@
 #! /bin/bash
-if [ "$#" -ne 1 ]; then
-  echo "Usage: ./bin/upload.sh <Function Name>"
-  exit 1
-fi
-
 echo Zipping contents...
 zip -r lambda.zip .
 
-echo Deploying to function $1 ...
-aws lambda update-function-code --function-name $1 --region us-west-2 --zip-file fileb://lambda.zip
+echo Deploying to getEquipment...
+aws lambda update-function-code --function-name getEquipment --region us-west-2 --zip-file fileb://lambda.zip
+
+echo Deploying to getOems...
+aws lambda update-function-code --function-name getOems --region us-west-2 --zip-file fileb://lambda.zip
+
+echo Deploying to getModels...
+aws lambda update-function-code --function-name getModels --region us-west-2 --zip-file fileb://lambda.zip
+
+echo Deploying to getTypes...
+aws lambda update-function-code --function-name getTypes --region us-west-2 --zip-file fileb://lambda.zip
 
 echo Cleaning up...
 rm lambda.zip
