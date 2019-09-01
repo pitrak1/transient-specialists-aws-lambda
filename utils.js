@@ -62,8 +62,8 @@ exports.getModels = async client => {
         Models.id,
         Models.name,
         Oems.id AS oem_id,
-        Oems.name AS oem_name,
-      FROM Oems
+        Oems.name AS oem_name
+      FROM Models
         INNER JOIN Oems ON Models.oem_id = Oems.id;
     `)
     return {
