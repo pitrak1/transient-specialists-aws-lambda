@@ -8,9 +8,10 @@ exports.createDbConnection = () => {
   return client
 }
 
-exports.getEquipment = async client => {
-  try {
-    const result = await client.query(`
+exports.getEquipment = async client =>
+  get(
+    client,
+    `
       SELECT
         Equipments.id,
         Equipments.serial_number,
@@ -24,40 +25,22 @@ exports.getEquipment = async client => {
         INNER JOIN Types ON Equipments.type_id = Types.id
         INNER JOIN Models ON Equipments.model_id = Models.id
         INNER JOIN Oems ON Models.oem_id = Oems.id;
-    `)
-    return {
-      statusCode: 200,
-      body: result.rows,
-    }
-  } catch (e) {
-    return {
-      statusCode: 500,
-      body: e.message,
-    }
-  }
-}
+    `,
+  )
 
-exports.getOems = async client => {
-  try {
-    const result = await client.query(`
+exports.getOems = async client =>
+  get(
+    client,
+    `
       SELECT id, name
       FROM Oems;
-    `)
-    return {
-      statusCode: 200,
-      body: result.rows,
-    }
-  } catch (e) {
-    return {
-      statusCode: 500,
-      body: e.message,
-    }
-  }
-}
+    `,
+  )
 
-exports.getModels = async client => {
-  try {
-    const result = await client.query(`
+exports.getModels = async client =>
+  get(
+    client,
+    `
       SELECT
         Models.id,
         Models.name,
@@ -65,25 +48,21 @@ exports.getModels = async client => {
         Oems.name AS oem_name
       FROM Models
         INNER JOIN Oems ON Models.oem_id = Oems.id;
-    `)
-    return {
-      statusCode: 200,
-      body: result.rows,
-    }
-  } catch (e) {
-    return {
-      statusCode: 500,
-      body: e.message,
-    }
-  }
-}
+    `,
+  )
 
-exports.getTypes = async client => {
-  try {
-    const result = await client.query(`
+exports.getTypes = async client =>
+  get(
+    client,
+    `
       SELECT id, name
       FROM Types;
-    `)
+    `,
+  )
+
+async function get(client, query) {
+  try {
+    const result = await client.query(query)
     return {
       statusCode: 200,
       body: result.rows,
