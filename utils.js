@@ -8,8 +8,8 @@ exports.createDbConnection = () => {
   return client
 }
 
-exports.getEquipment = async client =>
-  get(
+exports.getEquipmentIndex = async client =>
+  getIndex(
     client,
     `
       SELECT
@@ -28,8 +28,8 @@ exports.getEquipment = async client =>
     `,
   )
 
-exports.getOems = async client =>
-  get(
+exports.getOemsIndex = async client =>
+  getIndex(
     client,
     `
       SELECT id, name
@@ -37,8 +37,8 @@ exports.getOems = async client =>
     `,
   )
 
-exports.getModels = async client =>
-  get(
+exports.getModelsIndex = async client =>
+  getIndex(
     client,
     `
       SELECT
@@ -51,8 +51,8 @@ exports.getModels = async client =>
     `,
   )
 
-exports.getTypes = async client =>
-  get(
+exports.getTypesIndex = async client =>
+  getIndex(
     client,
     `
       SELECT id, name
@@ -60,7 +60,7 @@ exports.getTypes = async client =>
     `,
   )
 
-async function get(client, query) {
+async function getIndex(client, query) {
   try {
     const result = await client.query(query)
     return {
@@ -75,15 +75,29 @@ async function get(client, query) {
   }
 }
 
-exports.createEquipment = async (client, fields) => {
+exports.getEquipmentShow = async (client, id) => {
   try {
-    await client.query(`
-      INSERT INTO Equipments (serial_number, type_id, model_id)
-      VALUES ('${fields.serialNumber}', ${fields.typeId}, ${fields.modelId});
-    `)
+    const result = await client.query(
+      `
+        SELECT
+          Equipments.id,
+          Equipments.serial_number,
+          Oems.id AS oem_id,
+          Oems.name AS oem_name,
+          Models.id AS model_id,
+          Models.name AS model_name,
+          Types.id AS type_id,
+          Types.name AS type_name
+        FROM Equipments
+          INNER JOIN Types ON Equipments.type_id = Types.id
+          INNER JOIN Models ON Equipments.model_id = Models.id
+          INNER JOIN Oems ON Models.oem_id = Oems.id
+        WHERE Equipments.id = ${id};
+      `,
+    )
     return {
       statusCode: 200,
-      body: fields,
+      body: result.rows[0],
     }
   } catch (e) {
     return {
@@ -93,15 +107,65 @@ exports.createEquipment = async (client, fields) => {
   }
 }
 
-exports.createType = async (client, fields) => {
+exports.getOemsShow = async (client, id) => {
   try {
-    await client.query(`
-      INSERT INTO Types (name)
-      VALUES ('${fields.name}');
-    `)
+    const result = await client.query(
+      `
+        SELECT id, name
+        FROM Oems
+        WHERE Oems.id = ${id};
+      `,
+    )
     return {
       statusCode: 200,
-      body: fields,
+      body: result.rows[0],
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.getModelsShow = async (client, id) => {
+  try {
+    const result = await client.query(
+      `
+        SELECT
+          Models.id,
+          Models.name,
+          Oems.id AS oem_id,
+          Oems.name AS oem_name
+        FROM Models
+          INNER JOIN Oems ON Models.oem_id = Oems.id
+        WHERE Models.id = ${1};
+      `,
+    )
+    return {
+      statusCode: 200,
+      body: result.rows[0],
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.getTypesShow = async (client, id) => {
+  try {
+    const result = await client.query(
+      `
+        SELECT id, name
+        FROM Types
+        WHERE Types.id = ${1};
+      `,
+    )
+    return {
+      statusCode: 200,
+      body: result.rows[0],
     }
   } catch (e) {
     return {
