@@ -145,3 +145,48 @@ getShow = async (client, query) => {
     }
   }
 }
+
+exports.getEquipmentNew = async client => {
+  try {
+    const oems = await getIndex(
+      client,
+      `
+        SELECT id, name
+        FROM Oems;
+      `,
+    )
+    const models = await getIndex(
+      client,
+      `
+        SELECT
+          Models.id,
+          Models.name,
+          Oems.id AS oem_id,
+          Oems.name AS oem_name
+        FROM Models
+          INNER JOIN Oems ON Models.oem_id = Oems.id;
+      `,
+    )
+    const types = await getIndex(
+      client,
+      `
+        SELECT id, name
+        FROM Types;
+      `,
+    )
+
+    return {
+      statusCode: 200,
+      body: {
+        oems: oems.body,
+        models: models.body,
+        types: types.body,
+      },
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
