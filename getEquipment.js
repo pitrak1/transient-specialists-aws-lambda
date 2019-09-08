@@ -1,4 +1,3 @@
-// import utils from './utils'
 const utils = require('./utils')
 
 const client = utils.createDbConnection()
