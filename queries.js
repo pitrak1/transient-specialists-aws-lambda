@@ -36,6 +36,11 @@ exports.postEquipmentCreate = ({ serialNumber, modelId, typeId }) => `
   VALUES ('${serialNumber}', ${modelId}, ${typeId});
 `
 
+exports.deleteEquipmentDestroy = id => `
+  DELETE FROM Equipments
+  WHERE Equipments.id = ${id};
+`
+
 exports.getOemsIndex = () => `
   SELECT id, name
   FROM Oems;
@@ -50,6 +55,11 @@ exports.getOemsShow = id => `
 exports.postOemsCreate = ({ name }) => `
   INSERT INTO Oems (name)
   VALUES ('${name}');
+`
+
+exports.deleteOemsDestroy = id => `
+  DELETE FROM Oems
+  WHERE Oems.id = ${id};
 `
 
 exports.getModelsIndex = () => `
@@ -78,6 +88,11 @@ exports.postModelsCreate = ({ name, oemId }) => `
   VALUES ('${name}', ${oemId});
 `
 
+exports.deleteModelsDestroy = id => `
+  DELETE FROM Models
+  WHERE Models.id = ${id};
+`
+
 exports.getTypesIndex = () => `
   SELECT id, name
   FROM Types;
@@ -92,4 +107,9 @@ exports.getTypesShow = id => `
 exports.postTypesCreate = ({ name }) => `
   INSERT INTO Types (name)
   VALUES ('${name}');
+`
+
+exports.deleteTypesDestroy = id => `
+  DELETE FROM Types
+  WHERE Types.id = ${id};
 `

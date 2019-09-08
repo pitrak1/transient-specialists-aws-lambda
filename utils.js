@@ -27,65 +27,86 @@ exports.createDbConnection = () => {
 }
 
 exports.getEquipmentIndex = async client =>
-  getIndex(client, queries.getEquipmentIndex())
+  runQuery(client, queries.getEquipmentIndex(), result => result.rows)
 
 exports.getEquipmentShow = async (client, id) =>
-  getShow(client, queries.getEquipmentShow(id))
+  runQuery(client, queries.getEquipmentShow(id), result => result.rows[0])
 
 exports.getEquipmentNew = async client => {
   const runQueries = async () => {
-    const oems = await getIndex(client, queries.getOemsIndex())
-    const models = await getIndex(client, queries.getModelsIndex())
-    const types = await getIndex(client, queries.getTypesIndex())
+    const oems = await runQuery(
+      client,
+      queries.getOemsIndex(),
+      result => result.rows,
+    )
+    const models = await runQuery(
+      client,
+      queries.getModelsIndex(),
+      result => result.rows,
+    )
+    const types = await runQuery(
+      client,
+      queries.getTypesIndex(),
+      result => result.rows,
+    )
     return { oems: oems.body, models: models.body, types: types.body }
   }
   return runCustomQuery(runQueries, result => result)
 }
 
 exports.postEquipmentCreate = async (client, data) =>
-  postCreate(client, queries.postEquipmentCreate(data))
+  runQuery(client, queries.postEquipmentCreate(data), _result => ({}))
 
-exports.getOemsIndex = async client => getIndex(client, queries.getOemsIndex())
+exports.deleteEquipmentDestroy = async (client, id) =>
+  runQuery(client, queries.deleteEquipmentDestroy(id), _result => ({}))
+
+exports.getOemsIndex = async client =>
+  runQuery(client, queries.getOemsIndex(), result => result.rows)
 
 exports.getOemsShow = async (client, id) =>
-  getShow(client, queries.getOemsShow(id))
+  runQuery(client, queries.getOemsShow(id), result => result.rows[0])
 
 exports.postOemsCreate = async (client, data) =>
-  postCreate(client, queries.postOemsCreate(data))
+  runQuery(client, queries.postOemsCreate(data), _result => ({}))
+
+exports.deleteOemsDestroy = async (client, id) =>
+  runQuery(client, queries.deleteOemsDestroy(id), _result => ({}))
 
 exports.getModelsIndex = async client =>
-  getIndex(client, queries.getModelsIndex())
+  runQuery(client, queries.getModelsIndex(), result => result.rows)
 
 exports.getModelsShow = async (client, id) =>
-  getShow(client, queries.getModelsShow(id))
+  runQuery(client, queries.getModelsShow(id), result => result.rows[0])
 
 exports.getModelsNew = async client => {
   const runQueries = async () => {
-    const oems = await getIndex(client, queries.getOemsIndex())
+    const oems = await runQuery(
+      client,
+      queries.getOemsIndex(),
+      result => result.rows,
+    )
     return { oems: oems.body }
   }
   return runCustomQuery(runQueries, result => result)
 }
 
 exports.postModelsCreate = async (client, data) =>
-  postCreate(client, queries.postModelsCreate(data))
+  runQuery(client, queries.postModelsCreate(data), _result => ({}))
+
+exports.deleteModelsDestroy = async (client, id) =>
+  runQuery(client, queries.deleteModelsDestroy(id), _result => ({}))
 
 exports.getTypesIndex = async client =>
-  getIndex(client, queries.getTypesIndex())
+  runQuery(client, queries.getTypesIndex(), result => result.rows)
 
 exports.getTypesShow = async (client, id) =>
-  getShow(client, queries.getTypesShow(id))
+  runQuery(client, queries.getTypesShow(id), result => result.rows[0])
 
 exports.postTypesCreate = async (client, data) =>
-  postCreate(client, queries.postTypesCreate(data))
+  runQuery(client, queries.postTypesCreate(data), _result => ({}))
 
-getIndex = async (client, query) =>
-  runQuery(client, query, result => result.rows)
-
-getShow = async (client, query) =>
-  runQuery(client, query, result => result.rows[0])
-
-postCreate = async (client, query) => runQuery(client, query, _result => ({}))
+exports.deleteTypesDestroy = async (client, id) =>
+  runQuery(client, queries.deleteTypesDestroy(id), _result => ({}))
 
 runQuery = async (client, query, formatOutput) => {
   const runQueries = async () => client.query(query)
