@@ -6,7 +6,10 @@ exports.handler = async (event, _context, _callback) => {
   console.log(`Event`)
   console.log(event)
   let statusCode, body
-  if (event.id) {
+  if (event.new) {
+    console.log(`Calling getModelsNew`)
+    ;({ statusCode, body } = await utils.getModelsNew(client))
+  } else if (event.id) {
     console.log(`Calling getModelsShow`)
     ;({ statusCode, body } = await utils.getModelsShow(client, event.id))
   } else {

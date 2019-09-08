@@ -211,3 +211,87 @@ exports.postEquipment = async (client, data) => {
     }
   }
 }
+
+exports.getModelsNew = async client => {
+  try {
+    const oems = await getIndex(
+      client,
+      `
+        SELECT id, name
+        FROM Oems;
+      `,
+    )
+    return {
+      statusCode: 200,
+      body: { oems: oems.body },
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.postModels = async (client, data) => {
+  try {
+    const { name, oemId } = data
+    await client.query(
+      `
+        INSERT INTO Models (name, oem_id)
+        VALUES ('${name}', ${oemId});
+      `,
+    )
+    return {
+      statusCode: 200,
+      body: {},
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.postOems = async (client, data) => {
+  try {
+    const { name } = data
+    await client.query(
+      `
+        INSERT INTO Oems (name)
+        VALUES ('${name}');
+      `,
+    )
+    return {
+      statusCode: 200,
+      body: {},
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
+
+exports.postTypes = async (client, data) => {
+  try {
+    const { name } = data
+    await client.query(
+      `
+        INSERT INTO Types (name)
+        VALUES ('${name}');
+      `,
+    )
+    return {
+      statusCode: 200,
+      body: {},
+    }
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: e.message,
+    }
+  }
+}
