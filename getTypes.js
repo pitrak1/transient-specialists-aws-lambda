@@ -4,10 +4,21 @@ const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
-    if (event.id) {
-      return await utils.getTypesShow(client, event.id)
+    try {
+      const result = await client.query(`
+        SELECT id, name
+        FROM Types;
+      `)
+      return {
+        statusCode: 200,
+        body: result.rows,
+      }
+    } catch (e) {
+      return {
+        statusCode: 500,
+        body: e.message,
+      }
     }
-    return await utils.getTypesIndex(client)
   }
   return await utils.genericHandler(event, handler)
 }
