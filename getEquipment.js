@@ -32,9 +32,15 @@ exports.handler = async (event, _context, _callback) => {
       SELECT
         id,
         status,
+        job_number,
+        company_notes,
+        start_date,
+        end_date,
+        updated_at,
         equipment_id
       FROM Events
       WHERE equipment_id = ${event.id}
+      ORDER BY updated_at DESC
     `)
     const equipment = await client.query(`
       SELECT

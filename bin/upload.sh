@@ -26,6 +26,9 @@ aws lambda update-function-code --function-name postModels --region us-west-2 --
 echo Deploying to postTypes...
 aws lambda update-function-code --function-name postTypes --region us-west-2 --zip-file fileb://lambda.zip
 
+echo Deploying to postEvents...
+aws lambda update-function-code --function-name postEvents --region us-west-2 --zip-file fileb://lambda.zip
+
 echo Deploying to deleteEquipment...
 aws lambda update-function-code --function-name deleteEquipment --region us-west-2 --zip-file fileb://lambda.zip
 
