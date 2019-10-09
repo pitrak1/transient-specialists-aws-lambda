@@ -65,7 +65,7 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const indexHandler = async () => {
-    const result = await client.query(`
+    const query = `
       SELECT
         Equipments.id,
         Equipments.serial_number,
@@ -78,11 +78,17 @@ exports.handler = async (event, _context, _callback) => {
       FROM Equipments
         INNER JOIN Types ON Equipments.type_id = Types.id
         INNER JOIN Models ON Equipments.model_id = Models.id
-        INNER JOIN Oems ON Models.oem_id = Oems.id;
-    `)
+        INNER JOIN Oems ON Models.oem_id = Oems.id
+      ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
+      LIMIT ${event.perPage}
+      OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
+    `
+    console.log(query)
+    const result = await client.query(query)
+    const count = await client.query(`SELECT COUNT(*) FROM Equipments`)
     return {
       statusCode: 200,
-      body: result.rows,
+      body: { equipment: result.rows, count: parseInt(count.rows[0].count) },
     }
   }
 
