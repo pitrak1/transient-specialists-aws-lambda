@@ -67,18 +67,43 @@ exports.handler = async (event, _context, _callback) => {
   const indexHandler = async () => {
     const query = `
       SELECT
-        Equipments.id,
+        y.id AS event_id,
+        y.status AS event_status,
+        y.job_number AS event_job_number,
+        y.company_notes AS event_company_notes,
+        y.start_date AS event_start_date,
+        y.end_date AS event_end_date,
+        Equipments.id AS id,
         Equipments.serial_number,
-        Oems.id AS oem_id,
-        Oems.name AS oem_name,
+        Equipments.notes,
+        Equipments.cal_company,
+        Equipments.cal_due,
+        Types.id AS type_id,
+        Types.name AS type_name,
         Models.id AS model_id,
         Models.name AS model_name,
-        Types.id AS type_id,
-        Types.name AS type_name
-      FROM Equipments
-        INNER JOIN Types ON Equipments.type_id = Types.id
-        INNER JOIN Models ON Equipments.model_id = Models.id
-        INNER JOIN Oems ON Models.oem_id = Oems.id
+        Oems.id AS oem_id,
+        Oems.name AS oem_name
+      FROM (
+        SELECT
+          x.id,
+          x.status,
+          x.job_number,
+          x.company_notes,
+          x.start_date,
+          x.end_date,
+          x.updated_at,
+          x.equipment_id,
+          ROW_NUMBER() OVER(
+            PARTITION BY x.equipment_id ORDER BY x.updated_at DESC
+          ) AS rk
+        FROM Events x
+      ) y
+      INNER JOIN Equipments ON Equipments.id = y.equipment_id
+      INNER JOIN Types ON Equipments.type_id = Types.id
+      INNER JOIN Models ON Equipments.model_id = Models.id
+      INNER JOIN Oems ON Models.oem_id = Oems.id
+      WHERE y.rk = 1
       ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
       LIMIT ${event.perPage}
       OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
