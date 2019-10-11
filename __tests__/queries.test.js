@@ -377,6 +377,17 @@ describe('Queries', () => {
     })
   })
 
+  describe('getTypesShow', () => {
+    it('embeds name into query', () => {
+      const expected = `
+        SELECT id, name
+        FROM Types
+        WHERE Types.id = 3;
+      `
+      expect(queries.getTypesShow({ id: 3 })).toMatchWithoutWhitespace(expected)
+    })
+  })
+
   describe('getTypesIndex', () => {
     it('properly uses sorting and pagination options', () => {
       const expected = `
@@ -428,6 +439,19 @@ describe('Queries', () => {
         queries.getTypesIndexCount({
           searchValue: 'ABCD',
         }),
+      ).toMatchWithoutWhitespace(expected)
+    })
+  })
+
+  describe('updateType', () => {
+    it('embeds id and name into query', () => {
+      const expected = `
+        UPDATE Types
+        SET Types.name = 'Type 1'
+        WHERE Types.id = 3;
+      `
+      expect(
+        queries.updateType({ name: 'Type 1', id: 3 }),
       ).toMatchWithoutWhitespace(expected)
     })
   })

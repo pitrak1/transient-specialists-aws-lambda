@@ -157,6 +157,17 @@ exports.getEquipmentIndexCount = event => {
   `
 }
 
+exports.getModelsShow = event => `
+  SELECT
+    Models.id,
+    Models.name,
+    Oems.id AS oem_id,
+    Oems.name AS oem_name
+  FROM Models
+  INNER JOIN Oems ON Models.oem_id = Oems.id
+  WHERE Models.id = ${event.id}
+`
+
 exports.getModelsIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -198,6 +209,12 @@ exports.getModelsIndexCount = event => {
   `
 }
 
+exports.getOemsShow = event => `
+  SELECT id, name
+  FROM Oems
+  WHERE Oems.id = ${event.id};
+`
+
 exports.getOemsIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -227,6 +244,12 @@ exports.getOemsIndexCount = event => {
   `
 }
 
+exports.getTypesShow = event => `
+  SELECT id, name
+  FROM Types
+  WHERE Types.id = ${event.id};
+`
+
 exports.getTypesIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -255,6 +278,47 @@ exports.getTypesIndexCount = event => {
     ${search};
   `
 }
+
+exports.updateModel = event => `
+  UPDATE Equipments
+  SET
+    serial_number = '${event.serialNumber}',
+    notes = '${event.notes}',
+    cal_company = '${event.calCompany}',
+    cal_due = '${event.calDue}',
+    type_id = ${event.typeId},
+    model_id = ${event.modelId}
+  WHERE Models.id = ${event.id};
+`
+
+exports.updateModel = event => `
+  UPDATE Models
+  SET name = '${event.name}', oem_id = ${event.oemId}
+  WHERE Models.id = ${event.id};
+`
+
+exports.updateOem = event => `
+  UPDATE Oems
+  SET name = '${event.name}'
+  WHERE Oems.id = ${event.id};
+`
+
+exports.updateType = event => `
+  UPDATE Types
+  SET name = '${event.name}'
+  WHERE Types.id = ${event.id};
+`
+
+exports.updateEvent = event => `
+  UPDATE Events
+  SET
+    status = '${event.status}',
+    job_number = '${event.jobNumber}',
+    company_notes = '${event.companyNotes}',
+    start_date = '${event.startDate}',
+    end_date = '${event.endDate}'
+  WHERE Events.id = ${event.id};
+`
 
 exports.createEquipment = event => {
   const columns = ['serial_number', 'model_id', 'type_id']

@@ -12,6 +12,15 @@ exports.handler = async (event, _context, _callback) => {
     }
   }
 
+  const showHandler = async () => {
+    const oems = await client.query(queries.getAllOems())
+    const model = await client.query(queries.getModelsShow(event))
+    return {
+      statusCode: 200,
+      body: { model: model.rows[0], oems: oems.rows },
+    }
+  }
+
   const indexHandler = async () => {
     const result = await client.query(queries.getModelsIndex(event))
     const count = await client.query(queries.getModelsIndexCount(event))
@@ -25,6 +34,8 @@ exports.handler = async (event, _context, _callback) => {
     try {
       if (event.new) {
         return await newHandler()
+      } else if (event.id) {
+        return await showHandler(event)
       }
       return await indexHandler()
     } catch (e) {
