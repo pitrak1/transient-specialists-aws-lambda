@@ -1,4 +1,4 @@
-const queries = require('../queries')
+const queries = require('../src/queries')
 
 expect.extend({
   toMatchWithoutWhitespace(received, expected) {

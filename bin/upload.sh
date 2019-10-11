@@ -1,5 +1,7 @@
 #! /bin/bash
 echo Zipping contents...
+cd src
+npm install
 zip -r lambda.zip .
 
 echo Deploying to getEquipment...
@@ -43,3 +45,4 @@ aws lambda update-function-code --function-name deleteTypes --region us-west-2 -
 
 echo Cleaning up...
 rm lambda.zip
+cd ..

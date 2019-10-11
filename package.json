@@ -1,16 +1,13 @@
 {
   "name": "lambda-test",
   "version": "1.0.0",
-  "description": "This portion of the project has been temporarily put on hold to try out a different, full stack solution.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "pg": "^7.12.1"
-  },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
