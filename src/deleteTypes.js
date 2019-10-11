@@ -1,14 +1,12 @@
 const utils = require('./utils')
+const queries = require('./queries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      await client.query(`
-        DELETE FROM Types
-        WHERE Types.id = ${event.id};
-      `)
+      await client.query(queries.deleteTypeById(event))
       return {
         statusCode: 200,
         body: {},

@@ -1,23 +1,12 @@
 const utils = require('./utils')
+const queries = require('./queries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      const search = event.searchValue
-        ? `WHERE LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%'`
-        : ''
-      const query = `
-        SELECT id, name
-        FROM Types
-        ${search}
-        ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
-        LIMIT ${event.perPage}
-        OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
-      `
-      console.log(query)
-      const result = await client.query(query)
+      const result = await client.query(queries.getTypesIndex(event))
       return {
         statusCode: 200,
         body: { types: result.rows, count: result.rowCount },

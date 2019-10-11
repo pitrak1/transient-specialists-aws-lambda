@@ -1,13 +1,11 @@
 const utils = require('./utils')
+const queries = require('./queries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const newHandler = async () => {
-    const oems = await client.query(`
-      SELECT id, name
-      FROM Oems;
-    `)
+    const oems = await client.query(queries.getModelsNew())
     return {
       statusCode: 200,
       body: { oems: oems.rows },
