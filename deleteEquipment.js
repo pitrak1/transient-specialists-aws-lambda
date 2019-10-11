@@ -6,6 +6,11 @@ exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
       await client.query(`
+        DELETE FROM Events
+        WHERE equipment_id = ${event.id};
+      `)
+
+      await client.query(`
         DELETE FROM Equipments
         WHERE Equipments.id = ${event.id};
       `)
