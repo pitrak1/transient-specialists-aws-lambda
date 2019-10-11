@@ -87,6 +87,12 @@ exports.getEventsByEquipmentId = event => `
   OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
 `
 
+exports.getEventsByEquipmentIdCount = event => `
+  SELECT COUNT(*)
+  FROM Events
+  WHERE equipment_id = ${event.id}
+`
+
 exports.getEquipmentIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -129,6 +135,28 @@ exports.getEquipmentIndex = event => {
   `
 }
 
+exports.getEquipmentIndexCount = event => {
+  let search = ''
+  if (event.searchValue) {
+    search = `
+      WHERE LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%'
+    `
+  }
+
+  return `
+    SELECT COUNT(*)
+    FROM RecentEvents
+    INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
+    INNER JOIN Types ON Equipments.type_id = Types.id
+    INNER JOIN Models ON Equipments.model_id = Models.id
+    INNER JOIN Oems ON Models.oem_id = Oems.id
+    ${search};
+  `
+}
+
 exports.getModelsIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -153,6 +181,23 @@ exports.getModelsIndex = event => {
   `
 }
 
+exports.getModelsIndexCount = event => {
+  let search = ''
+  if (event.searchValue) {
+    search = `
+      WHERE LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
+    `
+  }
+
+  return `
+    SELECT COUNT(*)
+    FROM Models
+      INNER JOIN Oems ON Models.oem_id = Oems.id
+    ${search};
+  `
+}
+
 exports.getOemsIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -169,6 +214,19 @@ exports.getOemsIndex = event => {
   `
 }
 
+exports.getOemsIndexCount = event => {
+  let search = ''
+  if (event.searchValue) {
+    search = `WHERE LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'`
+  }
+
+  return `
+    SELECT COUNT(*)
+    FROM Oems
+    ${search};
+  `
+}
+
 exports.getTypesIndex = event => {
   let search = ''
   if (event.searchValue) {
@@ -182,6 +240,19 @@ exports.getTypesIndex = event => {
     ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
     LIMIT ${event.perPage}
     OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
+  `
+}
+
+exports.getTypesIndexCount = event => {
+  let search = ''
+  if (event.searchValue) {
+    search = `WHERE LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%'`
+  }
+
+  return `
+    SELECT COUNT(*)
+    FROM Types
+    ${search};
   `
 }
 

@@ -230,6 +230,29 @@ describe('Queries', () => {
     })
   })
 
+  describe('getEquipmentIndexCount', () => {
+    it('properly uses searchValue if given', () => {
+      const expected = `
+        SELECT COUNT(*)
+        FROM RecentEvents
+        INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
+        INNER JOIN Types ON Equipments.type_id = Types.id
+        INNER JOIN Models ON Equipments.model_id = Models.id
+        INNER JOIN Oems ON Models.oem_id = Oems.id
+        WHERE LOWER(Equipments.serial_number) LIKE '%abcd%'
+          OR LOWER(Oems.name) LIKE '%abcd%'
+          OR LOWER(Models.name) LIKE '%abcd%'
+          OR LOWER(Types.name) LIKE '%abcd%'
+        ;
+      `
+      expect(
+        queries.getEquipmentIndexCount({
+          searchValue: 'ABCD',
+        }),
+      ).toMatchWithoutWhitespace(expected)
+    })
+  })
+
   describe('getModelsIndex', () => {
     it('properly uses sorting and pagination options', () => {
       const expected = `
@@ -281,6 +304,24 @@ describe('Queries', () => {
     })
   })
 
+  describe('getModelsIndexCount', () => {
+    it('properly uses searchValue if given', () => {
+      const expected = `
+        SELECT COUNT(*)
+        FROM Models
+        INNER JOIN Oems ON Models.oem_id = Oems.id
+        WHERE LOWER(Models.name) LIKE '%abcd%'
+          OR LOWER(Oems.name) LIKE '%abcd%'
+        ;
+      `
+      expect(
+        queries.getModelsIndexCount({
+          searchValue: 'ABCD',
+        }),
+      ).toMatchWithoutWhitespace(expected)
+    })
+  })
+
   describe('getOemsIndex', () => {
     it('properly uses sorting and pagination options', () => {
       const expected = `
@@ -321,6 +362,21 @@ describe('Queries', () => {
     })
   })
 
+  describe('getOemsIndexCount', () => {
+    it('properly uses searchValue if given', () => {
+      const expected = `
+        SELECT COUNT(*)
+        FROM Oems
+        WHERE LOWER(Oems.name) LIKE '%abcd%';
+      `
+      expect(
+        queries.getOemsIndexCount({
+          searchValue: 'ABCD',
+        }),
+      ).toMatchWithoutWhitespace(expected)
+    })
+  })
+
   describe('getTypesIndex', () => {
     it('properly uses sorting and pagination options', () => {
       const expected = `
@@ -355,6 +411,21 @@ describe('Queries', () => {
           ascending: false,
           perPage: 10,
           page: 3,
+          searchValue: 'ABCD',
+        }),
+      ).toMatchWithoutWhitespace(expected)
+    })
+  })
+
+  describe('getTypesIndexCount', () => {
+    it('properly uses searchValue if given', () => {
+      const expected = `
+        SELECT COUNT(*)
+        FROM Types
+        WHERE LOWER(Types.name) LIKE '%abcd%';
+      `
+      expect(
+        queries.getTypesIndexCount({
           searchValue: 'ABCD',
         }),
       ).toMatchWithoutWhitespace(expected)

@@ -17,22 +17,23 @@ exports.handler = async (event, _context, _callback) => {
   const showHandler = async event => {
     const events = await client.query(queries.getEventsByEquipmentId(event))
     const equipment = await client.query(queries.getEquipmentShow(event))
-
+    const count = await client.query(queries.getEventsByEquipmentIdCount(event))
     return {
       statusCode: 200,
       body: {
         equipment: equipment.rows[0],
         events: events.rows,
-        count: events.rowCount,
+        count: count.rows[0].count,
       },
     }
   }
 
   const indexHandler = async () => {
     const result = await client.query(queries.getEquipmentIndex(event))
+    const count = await client.query(queries.getEquipmentIndexCount(event))
     return {
       statusCode: 200,
-      body: { equipment: result.rows, count: result.rowCount },
+      body: { equipment: result.rows, count: count.rows[0].count },
     }
   }
 
