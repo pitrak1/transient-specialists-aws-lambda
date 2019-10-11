@@ -49,12 +49,12 @@ exports.handler = async (event, _context, _callback) => {
 
     const equipmentQuery = `
       SELECT
-        y.id AS event_id,
-        y.status AS event_status,
-        y.job_number AS event_job_number,
-        y.company_notes AS event_company_notes,
-        y.start_date AS event_start_date,
-        y.end_date AS event_end_date,
+        RecentEvents.id AS event_id,
+        RecentEvents.status AS event_status,
+        RecentEvents.job_number AS event_job_number,
+        RecentEvents.company_notes AS event_company_notes,
+        RecentEvents.start_date AS event_start_date,
+        RecentEvents.end_date AS event_end_date,
         Equipments.id AS id,
         Equipments.serial_number,
         Equipments.notes,
@@ -66,26 +66,12 @@ exports.handler = async (event, _context, _callback) => {
         Models.name AS model_name,
         Oems.id AS oem_id,
         Oems.name AS oem_name
-      FROM (
-        SELECT
-          x.id,
-          x.status,
-          x.job_number,
-          x.company_notes,
-          x.start_date,
-          x.end_date,
-          x.updated_at,
-          x.equipment_id,
-          ROW_NUMBER() OVER(
-            PARTITION BY x.equipment_id ORDER BY x.updated_at DESC
-          ) AS rk
-        FROM Events x
-      ) y
-      INNER JOIN Equipments ON Equipments.id = y.equipment_id
+      FROM RecentEvents
+      INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
       INNER JOIN Types ON Equipments.type_id = Types.id
       INNER JOIN Models ON Equipments.model_id = Models.id
       INNER JOIN Oems ON Models.oem_id = Oems.id
-      WHERE y.rk = 1 AND Equipments.id = ${event.id};
+      WHERE Equipments.id = ${event.id};
     `
     console.log(equipmentQuery)
     const equipment = await client.query(equipmentQuery)
@@ -107,7 +93,7 @@ exports.handler = async (event, _context, _callback) => {
     let search = ''
     if (event.searchValue) {
       search = `
-        AND (LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
+        WHERE (LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
         OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
         OR LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
         OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%')
@@ -116,12 +102,12 @@ exports.handler = async (event, _context, _callback) => {
 
     const query = `
       SELECT
-        y.id AS event_id,
-        y.status AS event_status,
-        y.job_number AS event_job_number,
-        y.company_notes AS event_company_notes,
-        y.start_date AS event_start_date,
-        y.end_date AS event_end_date,
+        RecentEvents.id AS event_id,
+        RecentEvents.status AS event_status,
+        RecentEvents.job_number AS event_job_number,
+        RecentEvents.company_notes AS event_company_notes,
+        RecentEvents.start_date AS event_start_date,
+        RecentEvents.end_date AS event_end_date,
         Equipments.id AS id,
         Equipments.serial_number,
         Equipments.notes,
@@ -133,26 +119,11 @@ exports.handler = async (event, _context, _callback) => {
         Models.name AS model_name,
         Oems.id AS oem_id,
         Oems.name AS oem_name
-      FROM (
-        SELECT
-          x.id,
-          x.status,
-          x.job_number,
-          x.company_notes,
-          x.start_date,
-          x.end_date,
-          x.updated_at,
-          x.equipment_id,
-          ROW_NUMBER() OVER(
-            PARTITION BY x.equipment_id ORDER BY x.updated_at DESC
-          ) AS rk
-        FROM Events x
-      ) y
-      INNER JOIN Equipments ON Equipments.id = y.equipment_id
+      FROM RecentEvents
+      INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
       INNER JOIN Types ON Equipments.type_id = Types.id
       INNER JOIN Models ON Equipments.model_id = Models.id
       INNER JOIN Oems ON Models.oem_id = Oems.id
-      WHERE y.rk = 1
       ${search}
       ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
       LIMIT ${event.perPage}
