@@ -1,23 +1,20 @@
 const utils = require('./utils')
+const queries = require('./queries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      await client.query(`
-        INSERT INTO Equipments (serial_number, model_id, type_id)
-        VALUES ('${event.serialNumber}', ${event.modelId}, ${event.typeId});
-      `)
+      await client.query(queries.createEquipment(event))
 
       const equipment = await client.query(
-        `SELECT * FROM Equipments WHERE Equipments.serial_number = '${event.serialNumber}';`,
+        queries.findEquipmentIdBySerialNumber(event),
       )
 
-      await client.query(`
-        INSERT INTO Events (status, equipment_id)
-        VALUES ('IN', ${equipment.rows[0].id})
-      `)
+      await client.query(
+        queries.createEvent({ equipmentId: equipment.rows[0].id }),
+      )
 
       return {
         statusCode: 200,

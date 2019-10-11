@@ -1,14 +1,32 @@
 {
   "name": "lambda-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "This portion of the project has been temporarily put on hold to try out a different, full stack solution.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "pg": "^7.12.1"
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "sinon": "^7.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pitrak1/transient-specialists-aws-lambda.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pitrak1/transient-specialists-aws-lambda/issues"
+  },
+  "homepage": "https://github.com/pitrak1/transient-specialists-aws-lambda#readme"
 }

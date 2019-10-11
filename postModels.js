@@ -1,14 +1,12 @@
 const utils = require('./utils')
+const queries = require('./queries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      await client.query(`
-        INSERT INTO Models (name, oem_id)
-        VALUES ('${event.name}', ${event.oemId});
-      `)
+      await client.query(queries.createModel(event))
       return {
         statusCode: 200,
         body: {},
