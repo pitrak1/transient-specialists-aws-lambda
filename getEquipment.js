@@ -104,6 +104,16 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const indexHandler = async () => {
+    let search = ''
+    if (event.searchValue) {
+      search = `
+        AND (LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
+        OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
+        OR LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
+        OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%')
+      `
+    }
+
     const query = `
       SELECT
         y.id AS event_id,
@@ -143,16 +153,16 @@ exports.handler = async (event, _context, _callback) => {
       INNER JOIN Models ON Equipments.model_id = Models.id
       INNER JOIN Oems ON Models.oem_id = Oems.id
       WHERE y.rk = 1
+      ${search}
       ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
       LIMIT ${event.perPage}
       OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
     `
     console.log(query)
     const result = await client.query(query)
-    const count = await client.query(`SELECT COUNT(*) FROM Equipments`)
     return {
       statusCode: 200,
-      body: { equipment: result.rows, count: parseInt(count.rows[0].count) },
+      body: { equipment: result.rows, count: result.rowCount },
     }
   }
 

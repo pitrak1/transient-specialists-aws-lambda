@@ -15,6 +15,9 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const indexHandler = async () => {
+    const search = event.searchValue
+      ? `WHERE LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%' OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'`
+      : ''
     const query = `
       SELECT
         Models.id,
@@ -23,16 +26,16 @@ exports.handler = async (event, _context, _callback) => {
         Oems.name AS oem_name
       FROM Models
         INNER JOIN Oems ON Models.oem_id = Oems.id
+      ${search}
       ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
       LIMIT ${event.perPage}
       OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
     `
     console.log(query)
     const result = await client.query(query)
-    const count = await client.query(`SELECT COUNT(*) FROM Models`)
     return {
       statusCode: 200,
-      body: { models: result.rows, count: parseInt(count.rows[0].count) },
+      body: { models: result.rows, count: result.rowCount },
     }
   }
 
