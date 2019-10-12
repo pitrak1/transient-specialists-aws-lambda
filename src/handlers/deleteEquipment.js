@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const utils = require('../utils')
 const equipmentQueries = require('../queries/equipmentQueries')
 const eventQueries = require('../queries/eventQueries')
 

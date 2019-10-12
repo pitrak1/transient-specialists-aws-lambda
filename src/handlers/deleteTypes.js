@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const utils = require('../utils')
 const typeQueries = require('../queries/typeQueries')
 
 const client = utils.createDbConnection()

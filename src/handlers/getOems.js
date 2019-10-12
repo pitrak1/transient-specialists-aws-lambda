@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const utils = require('../utils')
 const oemQueries = require('../queries/oemQueries')
 
 const client = utils.createDbConnection()

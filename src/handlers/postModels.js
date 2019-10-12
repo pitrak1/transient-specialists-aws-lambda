@@ -1,4 +1,4 @@
-const utils = require('./utils')
+const utils = require('../utils')
 const modelQueries = require('../queries/modelQueries')
 
 const client = utils.createDbConnection()
