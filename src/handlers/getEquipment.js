@@ -32,6 +32,22 @@ exports.handler = async (event, _context, _callback) => {
     }
   }
 
+  const editHandler = async event => {
+    const equipment = await client.query(equipmentQueries.getShow(event))
+    const oems = await client.query(oemQueries.getAll())
+    const models = await client.query(modelQueries.getAll())
+    const types = await client.query(typeQueries.getAll())
+    return {
+      statusCode: 200,
+      body: {
+        equipment: equipment.rows[0],
+        oems: oems.rows,
+        models: models.rows,
+        types: types.rows,
+      },
+    }
+  }
+
   const indexHandler = async () => {
     const result = await client.query(equipmentQueries.getIndex(event))
     const count = await client.query(equipmentQueries.getIndexCount(event))
@@ -45,8 +61,10 @@ exports.handler = async (event, _context, _callback) => {
     try {
       if (event.new) {
         return await newHandler(event)
-      } else if (event.id) {
+      } else if (event.show) {
         return await showHandler(event)
+      } else if (event.edit) {
+        return await editHandler(event)
       }
       return await indexHandler()
     } catch (e) {

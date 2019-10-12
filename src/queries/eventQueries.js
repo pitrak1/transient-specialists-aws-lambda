@@ -1,3 +1,17 @@
+exports.getShow = event => `
+  SELECT
+    id,
+    status,
+    job_number,
+    company_notes,
+    start_date,
+    end_date,
+    updated_at,
+    equipment_id
+  FROM Events
+  WHERE Events.id = ${event.id};
+`
+
 exports.getByEquipmentId = event => `
   SELECT
     id,

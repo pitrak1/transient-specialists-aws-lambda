@@ -23,7 +23,7 @@ exports.handler = async (event, _context, _callback) => {
 
   const handler = async event => {
     try {
-      if (event.id) {
+      if (event.show || event.edit) {
         return await showHandler(event)
       }
       return await indexHandler()

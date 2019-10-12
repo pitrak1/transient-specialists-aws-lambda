@@ -16,6 +16,9 @@ aws lambda update-function-code --function-name getModels --region us-west-2 --z
 echo Deploying to getTypes...
 aws lambda update-function-code --function-name getTypes --region us-west-2 --zip-file fileb://lambda.zip
 
+echo Deploying to getEvents...
+aws lambda update-function-code --function-name getEvents --region us-west-2 --zip-file fileb://lambda.zip
+
 echo Deploying to patchEquipment...
 aws lambda update-function-code --function-name patchEquipment --region us-west-2 --zip-file fileb://lambda.zip
 

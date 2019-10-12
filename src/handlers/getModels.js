@@ -14,6 +14,14 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const showHandler = async () => {
+    const model = await client.query(modelQueries.getShow(event))
+    return {
+      statusCode: 200,
+      body: { model: model.rows[0] },
+    }
+  }
+
+  const editHandler = async () => {
     const oems = await client.query(oemQueries.getAll())
     const model = await client.query(modelQueries.getShow(event))
     return {
@@ -35,8 +43,10 @@ exports.handler = async (event, _context, _callback) => {
     try {
       if (event.new) {
         return await newHandler()
-      } else if (event.id) {
+      } else if (event.show) {
         return await showHandler(event)
+      } else if (event.edit) {
+        return await editHandler(event)
       }
       return await indexHandler()
     } catch (e) {

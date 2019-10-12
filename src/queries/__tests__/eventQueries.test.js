@@ -4,7 +4,26 @@ const customMatchers = require('../../customMatchers.js')
 expect.extend(customMatchers.matchers)
 
 describe('eventQueries', () => {
-  describe('getEventsByEquipmentId', () => {
+  describe('getShow', () => {
+    it('embeds id into query', () => {
+      const expected = `
+        SELECT
+          id,
+          status,
+          job_number,
+          company_notes,
+          start_date,
+          end_date,
+          updated_at,
+          equipment_id
+        FROM Events
+        WHERE Events.id = 2;
+      `
+      expect(eventQueries.getShow({ id: 2 })).toMatchWithoutWhitespace(expected)
+    })
+  })
+
+  describe('getByEquipmentId', () => {
     it('properly uses sorting and pagination options', () => {
       const expected = `
         SELECT
@@ -34,7 +53,7 @@ describe('eventQueries', () => {
     })
   })
 
-  describe('getEventsByEquipmentIdCount', () => {
+  describe('getByEquipmentIdCount', () => {
     it('embeds equipmentId into query', () => {
       const expected = `
         SELECT COUNT(*)
