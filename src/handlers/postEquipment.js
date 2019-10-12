@@ -14,7 +14,10 @@ exports.handler = async (event, _context, _callback) => {
       )
 
       await client.query(
-        eventQueries.create({ equipmentId: equipment.rows[0].id }),
+        eventQueries.create({
+          equipmentId: equipment.rows[0].id,
+          status: 'IN',
+        }),
       )
 
       return {
