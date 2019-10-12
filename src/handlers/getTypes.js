@@ -1,12 +1,12 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const typeQueries = require('../queries/typeQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     const showHandler = async event => {
-      const type = await client.query(queries.getTypesShow(event))
+      const type = await client.query(typeQueries.getShow(event))
       return {
         statusCode: 200,
         body: { type: type.rows[0] },
@@ -14,8 +14,8 @@ exports.handler = async (event, _context, _callback) => {
     }
 
     const indexHandler = async () => {
-      const result = await client.query(queries.getTypesIndex(event))
-      const count = await client.query(queries.getTypesIndexCount(event))
+      const result = await client.query(typeQueries.getIndex(event))
+      const count = await client.query(typeQueries.getIndexCount(event))
       return {
         statusCode: 200,
         body: { types: result.rows, count: count.rows[0].count },

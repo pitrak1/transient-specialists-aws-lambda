@@ -1,12 +1,12 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const typeQueries = require('../queries/typeQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      await client.query(queries.deleteOemById(event))
+      await client.query(typeQueries.create(event))
       return {
         statusCode: 200,
         body: {},

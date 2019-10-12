@@ -1,21 +1,12 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const oemQueries = require('../queries/oemQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      await client.query(queries.createEquipment(event))
-
-      const equipment = await client.query(
-        queries.findEquipmentIdBySerialNumber(event),
-      )
-
-      await client.query(
-        queries.createEvent({ equipmentId: equipment.rows[0].id }),
-      )
-
+      await client.query(oemQueries.deleteById(event))
       return {
         statusCode: 200,
         body: {},

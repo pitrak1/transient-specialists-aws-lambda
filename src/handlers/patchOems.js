@@ -1,12 +1,12 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const oemQueries = require('../queries/oemQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
-      await client.query(queries.createType(event))
+      await client.query(oemQueries.update(event))
       return {
         statusCode: 200,
         body: {},

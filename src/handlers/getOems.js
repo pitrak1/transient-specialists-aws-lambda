@@ -1,11 +1,11 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const oemQueries = require('../queries/oemQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const showHandler = async () => {
-    const oem = await client.query(queries.getOemsShow(event))
+    const oem = await client.query(oemQueries.getShow(event))
     return {
       statusCode: 200,
       body: { oem: oem.rows[0] },
@@ -13,8 +13,8 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const indexHandler = async () => {
-    const result = await client.query(queries.getOemsIndex(event))
-    const count = await client.query(queries.getOemsIndexCount(event))
+    const result = await client.query(oemQueries.getIndex(event))
+    const count = await client.query(oemQueries.getIndexCount(event))
     return {
       statusCode: 200,
       body: { oems: result.rows, count: count.rows[0].count },

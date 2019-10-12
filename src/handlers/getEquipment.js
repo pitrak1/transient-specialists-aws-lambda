@@ -1,13 +1,17 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const equipmentQueries = require('../queries/equipmentQueries')
+const eventQueries = require('../queries/eventQueries')
+const oemQueries = require('../queries/oemQueries')
+const modelQueries = require('../queries/modelQueries')
+const typeQueries = require('../queries/typeQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const newHandler = async event => {
-    const oems = await client.query(queries.getAllOems())
-    const models = await client.query(queries.getAllModels())
-    const types = await client.query(queries.getAllTypes())
+    const oems = await client.query(oemQueries.getAll())
+    const models = await client.query(modelQueries.getAll())
+    const types = await client.query(typeQueries.getAll())
     return {
       statusCode: 200,
       body: { oems: oems.rows, models: models.rows, types: types.rows },
@@ -15,9 +19,9 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const showHandler = async event => {
-    const events = await client.query(queries.getEventsByEquipmentId(event))
-    const equipment = await client.query(queries.getEquipmentShow(event))
-    const count = await client.query(queries.getEventsByEquipmentIdCount(event))
+    const events = await client.query(eventQueries.getByEquipmentId(event))
+    const equipment = await client.query(equipmentQueries.getShow(event))
+    const count = await client.query(eventQueries.getByEquipmentIdCount(event))
     return {
       statusCode: 200,
       body: {
@@ -29,8 +33,8 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const indexHandler = async () => {
-    const result = await client.query(queries.getEquipmentIndex(event))
-    const count = await client.query(queries.getEquipmentIndexCount(event))
+    const result = await client.query(equipmentQueries.getIndex(event))
+    const count = await client.query(equipmentQueries.getEquipmentCount(event))
     return {
       statusCode: 200,
       body: { equipment: result.rows, count: count.rows[0].count },

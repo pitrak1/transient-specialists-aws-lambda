@@ -1,11 +1,12 @@
 const utils = require('./utils')
-const queries = require('./queries')
+const oemQueries = require('../queries/oemQueries')
+const modelQueries = require('../queries/modelQueries')
 
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const newHandler = async () => {
-    const oems = await client.query(queries.getModelsNew())
+    const oems = await client.query(modelQueries.getNew())
     return {
       statusCode: 200,
       body: { oems: oems.rows },
@@ -13,8 +14,8 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const showHandler = async () => {
-    const oems = await client.query(queries.getAllOems())
-    const model = await client.query(queries.getModelsShow(event))
+    const oems = await client.query(oemQueries.getAll())
+    const model = await client.query(modelQueries.getShow(event))
     return {
       statusCode: 200,
       body: { model: model.rows[0], oems: oems.rows },
@@ -22,8 +23,8 @@ exports.handler = async (event, _context, _callback) => {
   }
 
   const indexHandler = async () => {
-    const result = await client.query(queries.getModelsIndex(event))
-    const count = await client.query(queries.getModelsIndexCount(event))
+    const result = await client.query(modelQueries.getIndex(event))
+    const count = await client.query(modelQueries.getIndexCount(event))
     return {
       statusCode: 200,
       body: { models: result.rows, count: count.rows[0].count },
