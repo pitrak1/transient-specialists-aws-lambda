@@ -53,7 +53,7 @@ exports.handler = async (event, _context, _callback) => {
     const count = await client.query(equipmentQueries.getIndexCount(event))
     return {
       statusCode: 200,
-      body: { equipment: result.rows, count: count.rows[0].count },
+      body: { data: result.rows, count: count.rows[0].count },
     }
   }
 

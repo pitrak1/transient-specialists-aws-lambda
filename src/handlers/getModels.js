@@ -6,7 +6,7 @@ const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
   const newHandler = async () => {
-    const oems = await client.query(modelQueries.getNew())
+    const oems = await client.query(oemQueries.getAll())
     return {
       statusCode: 200,
       body: { oems: oems.rows },
@@ -35,7 +35,7 @@ exports.handler = async (event, _context, _callback) => {
     const count = await client.query(modelQueries.getIndexCount(event))
     return {
       statusCode: 200,
-      body: { models: result.rows, count: count.rows[0].count },
+      body: { data: result.rows, count: count.rows[0].count },
     }
   }
 
