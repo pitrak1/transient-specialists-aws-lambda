@@ -95,7 +95,7 @@ exports.update = event => `
     serial_number = '${event.serialNumber}',
     notes = '${event.notes}',
     cal_company = '${event.calCompany}',
-    cal_due = '${event.calDue}',
+    cal_due = ${event.calDue ? `'${event.calDue}'` : null},
     type_id = ${event.typeId},
     model_id = ${event.modelId}
   WHERE Equipments.id = ${event.id};

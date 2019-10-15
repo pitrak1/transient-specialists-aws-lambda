@@ -41,9 +41,9 @@ exports.update = event => `
     status = '${event.status}',
     job_number = '${event.jobNumber}',
     company_notes = '${event.companyNotes}',
-    start_date = '${event.startDate}',
-    end_date = '${event.endDate}',
-    updated_at = '${event.updatedAt}'
+    start_date = ${event.startDate ? `'${event.startDate}'` : null},
+    end_date = ${event.endDate ? `'${event.endDate}'` : null},
+    updated_at = ${event.updatedAt ? `'${event.updatedAt}'` : null}
   WHERE Events.id = ${event.id};
 `
 
