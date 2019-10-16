@@ -86,3 +86,8 @@ exports.deleteByEquipmentId = event => `
   DELETE FROM Events
   WHERE equipment_id = ${event.id};
 `
+
+exports.deleteById = event => `
+  DELETE FROM Events
+  WHERE Events.id = ${event.id};
+`

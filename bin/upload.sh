@@ -61,6 +61,9 @@ aws lambda update-function-code --function-name deleteModels --region us-west-2 
 echo Deploying to deleteTypes...
 aws lambda update-function-code --function-name deleteTypes --region us-west-2 --zip-file fileb://lambda.zip
 
+echo Deploying to deleteEvents...
+aws lambda update-function-code --function-name deleteEvents --region us-west-2 --zip-file fileb://lambda.zip
+
 echo Cleaning up...
 rm lambda.zip
 cd ..
