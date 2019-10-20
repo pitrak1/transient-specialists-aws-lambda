@@ -38,9 +38,7 @@ resource "aws_api_gateway_method_response" "get_events_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -57,9 +55,7 @@ resource "aws_api_gateway_integration_response" "get_events_ok" {
   status_code = "${aws_api_gateway_method_response.get_events_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -95,9 +91,7 @@ resource "aws_api_gateway_method_response" "patch_events_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -114,9 +108,7 @@ resource "aws_api_gateway_integration_response" "patch_events_ok" {
   status_code = "${aws_api_gateway_method_response.patch_events_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -152,9 +144,7 @@ resource "aws_api_gateway_method_response" "post_events_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -171,9 +161,7 @@ resource "aws_api_gateway_integration_response" "post_events_ok" {
   status_code = "${aws_api_gateway_method_response.post_events_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -218,9 +206,7 @@ resource "aws_api_gateway_method_response" "delete_events_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -237,9 +223,7 @@ resource "aws_api_gateway_integration_response" "delete_events_ok" {
   status_code = "${aws_api_gateway_method_response.delete_events_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 

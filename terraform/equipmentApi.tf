@@ -46,14 +46,14 @@ resource "aws_api_gateway_method_response" "get_equipment_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
     "application/json" = "Empty"
   }
+
+  depends_on = ["aws_api_gateway_method.get_equipment"]
 }
 
 resource "aws_api_gateway_integration_response" "get_equipment_ok" {
@@ -65,9 +65,7 @@ resource "aws_api_gateway_integration_response" "get_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.get_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -103,9 +101,7 @@ resource "aws_api_gateway_method_response" "patch_equipment_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -122,9 +118,7 @@ resource "aws_api_gateway_integration_response" "patch_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.patch_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -160,9 +154,7 @@ resource "aws_api_gateway_method_response" "post_equipment_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -179,9 +171,7 @@ resource "aws_api_gateway_integration_response" "post_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.post_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -226,9 +216,7 @@ resource "aws_api_gateway_method_response" "delete_equipment_ok" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = true
-    "method.response.header.Content-Length" = true
-    "method.response.header.Content-Type"   = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 
   response_models = {
@@ -245,9 +233,7 @@ resource "aws_api_gateway_integration_response" "delete_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.delete_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Timestamp"      = "integration.response.header.Date"
-    "method.response.header.Content-Length" = "integration.response.header.Content-Length"
-    "method.response.header.Content-Type"   = "integration.response.header.Content-Type"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -280,6 +266,7 @@ resource "aws_api_gateway_method_response" "options_equipment_ok" {
     resource_id   = "${aws_api_gateway_resource.equipment.id}"
     http_method   = "${aws_api_gateway_method.options_equipment.http_method}"
     status_code   = "200"
+
     response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = true,
         "method.response.header.Access-Control-Allow-Methods" = true,
@@ -298,7 +285,7 @@ resource "aws_api_gateway_integration_response" "options_equipment_ok" {
     status_code   = "${aws_api_gateway_method_response.options_equipment_ok.status_code}"
     response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
+        "method.response.header.Access-Control-Allow-Methods" = "'DELETE,GET,OPTIONS,PATCH,POST'",
         "method.response.header.Access-Control-Allow-Origin" = "'*'"
     }
     depends_on = ["aws_api_gateway_method_response.options_equipment_ok"]
