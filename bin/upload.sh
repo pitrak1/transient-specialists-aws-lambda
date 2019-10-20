@@ -5,64 +5,64 @@ npm install
 zip -r lambda.zip .
 
 echo Deploying to getEquipment...
-aws lambda update-function-code --function-name getEquipment --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name getEquipment --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to getOems...
-aws lambda update-function-code --function-name getOems --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name getOems --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to getModels...
-aws lambda update-function-code --function-name getModels --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name getModels --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to getTypes...
-aws lambda update-function-code --function-name getTypes --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name getTypes --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to getEvents...
-aws lambda update-function-code --function-name getEvents --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name getEvents --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to patchEquipment...
-aws lambda update-function-code --function-name patchEquipment --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name patchEquipment --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to patchModels...
-aws lambda update-function-code --function-name patchModels --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name patchModels --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to patchOems...
-aws lambda update-function-code --function-name patchOems --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name patchOems --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to patchTypes...
-aws lambda update-function-code --function-name patchTypes --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name patchTypes --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to patchEvents...
-aws lambda update-function-code --function-name patchEvents --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name patchEvents --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to postEquipment...
-aws lambda update-function-code --function-name postEquipment --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name postEquipment --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to postOems...
-aws lambda update-function-code --function-name postOems --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name postOems --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to postModels...
-aws lambda update-function-code --function-name postModels --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name postModels --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to postTypes...
-aws lambda update-function-code --function-name postTypes --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name postTypes --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to postEvents...
-aws lambda update-function-code --function-name postEvents --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name postEvents --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to deleteEquipment...
-aws lambda update-function-code --function-name deleteEquipment --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name deleteEquipment --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to deleteOems...
-aws lambda update-function-code --function-name deleteOems --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name deleteOems --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to deleteModels...
-aws lambda update-function-code --function-name deleteModels --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name deleteModels --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to deleteTypes...
-aws lambda update-function-code --function-name deleteTypes --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name deleteTypes --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Deploying to deleteEvents...
-aws lambda update-function-code --function-name deleteEvents --region us-west-2 --zip-file fileb://lambda.zip
+aws lambda update-function-code --function-name deleteEvents --region us-east-1 --zip-file fileb://lambda.zip
 
 echo Cleaning up...
 rm lambda.zip
