@@ -3,12 +3,13 @@ provider "aws" {
   region  = "${var.REGION}"
 }
 module "main" {
-  source                 = "./terraform"
-  DB_MASTER_USERNAME     = "${var.DB_MASTER_USERNAME}"
-  DB_MASTER_PASSWORD     = "${var.DB_MASTER_PASSWORD}"
-  DB_NAME                = "${var.DB_NAME}"
-  ACCOUNT_ID             = "${var.ACCOUNT_ID}"
-  REGION                 = "${var.REGION}"
+  source             = "./terraform"
+  DB_MASTER_USERNAME = "${var.DB_MASTER_USERNAME}"
+  DB_MASTER_PASSWORD = "${var.DB_MASTER_PASSWORD}"
+  DB_NAME            = "${var.DB_NAME}"
+  ACCOUNT_ID         = "${var.ACCOUNT_ID}"
+  REGION             = "${var.REGION}"
+  ORIGIN             = "${var.ORIGIN}"
 }
 
 variable "DB_MASTER_USERNAME" {
@@ -28,5 +29,9 @@ variable "ACCOUNT_ID" {
 }
 
 variable "REGION" {
+  type = "string"
+}
+
+variable "ORIGIN" {
   type = "string"
 }

@@ -65,7 +65,7 @@ resource "aws_api_gateway_integration_response" "get_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.get_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin" = "${var.ORIGIN}"
   }
 }
 
@@ -118,7 +118,7 @@ resource "aws_api_gateway_integration_response" "patch_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.patch_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin" = "${var.ORIGIN}"
   }
 }
 
@@ -171,7 +171,7 @@ resource "aws_api_gateway_integration_response" "post_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.post_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin" = "${var.ORIGIN}"
   }
 }
 
@@ -233,7 +233,7 @@ resource "aws_api_gateway_integration_response" "delete_equipment_ok" {
   status_code = "${aws_api_gateway_method_response.delete_equipment_ok.status_code}"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin" = "${var.ORIGIN}"
   }
 }
 
@@ -247,46 +247,46 @@ resource "aws_lambda_permission" "delete_equipment_lambda_permission" {
 # OPTIONS
 
 resource "aws_api_gateway_method" "options_equipment" {
-    rest_api_id   = "${aws_api_gateway_rest_api.transient_specialists.id}"
-    resource_id   = "${aws_api_gateway_resource.equipment.id}"
-    http_method   = "OPTIONS"
-    authorization = "NONE"
+  rest_api_id   = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  resource_id   = "${aws_api_gateway_resource.equipment.id}"
+  http_method   = "OPTIONS"
+  authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "options_equipment" {
-    rest_api_id   = "${aws_api_gateway_rest_api.transient_specialists.id}"
-    resource_id   = "${aws_api_gateway_resource.equipment.id}"
-    http_method   = "${aws_api_gateway_method.options_equipment.http_method}"
-    type          = "MOCK"
-    depends_on = ["aws_api_gateway_method.options_equipment"]
+  rest_api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  resource_id = "${aws_api_gateway_resource.equipment.id}"
+  http_method = "${aws_api_gateway_method.options_equipment.http_method}"
+  type        = "MOCK"
+  depends_on  = ["aws_api_gateway_method.options_equipment"]
 }
 
 resource "aws_api_gateway_method_response" "options_equipment_ok" {
-    rest_api_id   = "${aws_api_gateway_rest_api.transient_specialists.id}"
-    resource_id   = "${aws_api_gateway_resource.equipment.id}"
-    http_method   = "${aws_api_gateway_method.options_equipment.http_method}"
-    status_code   = "200"
+  rest_api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  resource_id = "${aws_api_gateway_resource.equipment.id}"
+  http_method = "${aws_api_gateway_method.options_equipment.http_method}"
+  status_code = "200"
 
-    response_parameters = {
-        "method.response.header.Access-Control-Allow-Headers" = true,
-        "method.response.header.Access-Control-Allow-Methods" = true,
-        "method.response.header.Access-Control-Allow-Origin" = true
-    }
-    response_models = {
-        "application/json" = "Empty"
-    }
-    depends_on = ["aws_api_gateway_method.options_equipment"]
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+  response_models = {
+    "application/json" = "Empty"
+  }
+  depends_on = ["aws_api_gateway_method.options_equipment"]
 }
 
 resource "aws_api_gateway_integration_response" "options_equipment_ok" {
-    rest_api_id   = "${aws_api_gateway_rest_api.transient_specialists.id}"
-    resource_id   = "${aws_api_gateway_resource.equipment.id}"
-    http_method   = "${aws_api_gateway_method.options_equipment.http_method}"
-    status_code   = "${aws_api_gateway_method_response.options_equipment_ok.status_code}"
-    response_parameters = {
-        "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Methods" = "'DELETE,GET,OPTIONS,PATCH,POST'",
-        "method.response.header.Access-Control-Allow-Origin" = "'*'"
-    }
-    depends_on = ["aws_api_gateway_method_response.options_equipment_ok"]
+  rest_api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  resource_id = "${aws_api_gateway_resource.equipment.id}"
+  http_method = "${aws_api_gateway_method.options_equipment.http_method}"
+  status_code = "${aws_api_gateway_method_response.options_equipment_ok.status_code}"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'DELETE,GET,OPTIONS,PATCH,POST'",
+    "method.response.header.Access-Control-Allow-Origin"  = "${var.ORIGIN}"
+  }
+  depends_on = ["aws_api_gateway_method_response.options_equipment_ok"]
 }

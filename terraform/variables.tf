@@ -17,3 +17,7 @@ variable "ACCOUNT_ID" {
 variable "REGION" {
   type = "string"
 }
+
+variable "ORIGIN" {
+  type = "string"
+}
