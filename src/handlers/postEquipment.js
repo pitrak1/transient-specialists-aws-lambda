@@ -9,17 +9,6 @@ exports.handler = async (event, _context, _callback) => {
     try {
       await client.query(equipmentQueries.create(event))
 
-      const equipment = await client.query(
-        equipmentQueries.findBySerialNumber(event),
-      )
-
-      await client.query(
-        eventQueries.create({
-          equipmentId: equipment.rows[0].id,
-          status: 'IN',
-        }),
-      )
-
       return {
         statusCode: 200,
         body: {},

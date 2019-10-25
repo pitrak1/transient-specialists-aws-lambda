@@ -18,7 +18,7 @@ exports.getShow = event => `
     Oems.id AS oem_id,
     Oems.name AS oem_name
   FROM RecentEvents
-  INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
+  RIGHT JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
   INNER JOIN Types ON Equipments.type_id = Types.id
   INNER JOIN Models ON Equipments.model_id = Models.id
   INNER JOIN Oems ON Models.oem_id = Oems.id
@@ -56,7 +56,7 @@ exports.getIndex = event => {
       Oems.id AS oem_id,
       Oems.name AS oem_name
     FROM RecentEvents
-    INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
+    RIGHT JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
     INNER JOIN Types ON Equipments.type_id = Types.id
     INNER JOIN Models ON Equipments.model_id = Models.id
     INNER JOIN Oems ON Models.oem_id = Oems.id
