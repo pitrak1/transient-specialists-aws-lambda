@@ -58,7 +58,7 @@ resource "aws_api_gateway_rest_api" "transient_specialists" {
 }
 
 resource "aws_api_gateway_deployment" "transient_specialists_deployment" {
-  depends_on  = [
+  depends_on = [
     "aws_api_gateway_integration.get_equipment",
     "aws_api_gateway_integration.patch_equipment",
     "aws_api_gateway_integration.post_equipment",
@@ -87,4 +87,13 @@ resource "aws_api_gateway_deployment" "transient_specialists_deployment" {
   ]
   rest_api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
   stage_name  = "default"
+}
+
+module "rds_dev" {
+  source = "./rds"
+
+  db_name            = "${var.DB_NAME}"
+  db_identifier      = "transient-specialists-dev"
+  db_master_username = "${var.DB_MASTER_USERNAME}"
+  db_master_password = "${var.DB_MASTER_PASSWORD}"
 }

@@ -10,7 +10,7 @@ resource "aws_lambda_function" "delete_events_lambda" {
 
   environment {
     variables = {
-      DB_ENDPOINT            = "${aws_db_instance.transient_specialists_dev.address}"
+      DB_ENDPOINT            = "${module.rds_dev.db_instance_address}"
       DB_MASTER_USERNAME     = "${var.DB_MASTER_USERNAME}"
       DB_MASTER_PASSWORD     = "${var.DB_MASTER_PASSWORD}"
       DB_NAME                = "${var.DB_NAME}"
