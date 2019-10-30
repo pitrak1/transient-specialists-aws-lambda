@@ -19,7 +19,7 @@ resource "aws_api_gateway_integration" "get_types" {
   http_method             = "${aws_api_gateway_method.get_types.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.get_types_lambda.invoke_arn}"
+  uri                     = "${module.get_types_lambda.lambda_invoke_arn}"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -69,7 +69,7 @@ resource "aws_api_gateway_integration_response" "get_types_ok" {
 
 resource "aws_lambda_permission" "get_types_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.get_types_lambda.function_name}"
+  function_name = "${module.get_types_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.get_types.http_method}${aws_api_gateway_resource.types.path}"
 }
@@ -89,7 +89,7 @@ resource "aws_api_gateway_integration" "patch_types" {
   http_method             = "${aws_api_gateway_method.patch_types.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.patch_types_lambda.invoke_arn}"
+  uri                     = "${module.patch_types_lambda.lambda_invoke_arn}"
 }
 
 resource "aws_api_gateway_method_response" "patch_types_ok" {
@@ -122,7 +122,7 @@ resource "aws_api_gateway_integration_response" "patch_types_ok" {
 
 resource "aws_lambda_permission" "patch_types_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.patch_types_lambda.function_name}"
+  function_name = "${module.patch_types_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.patch_types.http_method}${aws_api_gateway_resource.types.path}"
 }
@@ -142,7 +142,7 @@ resource "aws_api_gateway_integration" "post_types" {
   http_method             = "${aws_api_gateway_method.post_types.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.post_types_lambda.invoke_arn}"
+  uri                     = "${module.post_types_lambda.lambda_invoke_arn}"
 }
 
 resource "aws_api_gateway_method_response" "post_types_ok" {
@@ -175,7 +175,7 @@ resource "aws_api_gateway_integration_response" "post_types_ok" {
 
 resource "aws_lambda_permission" "post_types_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.post_types_lambda.function_name}"
+  function_name = "${module.post_types_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.post_types.http_method}${aws_api_gateway_resource.types.path}"
 }
@@ -195,7 +195,7 @@ resource "aws_api_gateway_integration" "delete_types" {
   http_method             = "${aws_api_gateway_method.delete_types.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.delete_types_lambda.invoke_arn}"
+  uri                     = "${module.delete_types_lambda.lambda_invoke_arn}"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -237,7 +237,7 @@ resource "aws_api_gateway_integration_response" "delete_types_ok" {
 
 resource "aws_lambda_permission" "delete_types_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.delete_types_lambda.function_name}"
+  function_name = "${module.delete_types_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.delete_types.http_method}${aws_api_gateway_resource.types.path}"
 }

@@ -19,7 +19,7 @@ resource "aws_api_gateway_integration" "get_equipment" {
   http_method             = "${aws_api_gateway_method.get_equipment.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.get_equipment_lambda.invoke_arn}"
+  uri                     = "${module.get_equipment_lambda.lambda_invoke_arn}"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -71,7 +71,7 @@ resource "aws_api_gateway_integration_response" "get_equipment_ok" {
 
 resource "aws_lambda_permission" "get_equipment_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.get_equipment_lambda.function_name}"
+  function_name = "${module.get_equipment_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.get_equipment.http_method}${aws_api_gateway_resource.equipment.path}"
 }
@@ -91,7 +91,7 @@ resource "aws_api_gateway_integration" "patch_equipment" {
   http_method             = "${aws_api_gateway_method.patch_equipment.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.patch_equipment_lambda.invoke_arn}"
+  uri                     = "${module.patch_equipment_lambda.lambda_invoke_arn}"
 }
 
 resource "aws_api_gateway_method_response" "patch_equipment_ok" {
@@ -124,7 +124,7 @@ resource "aws_api_gateway_integration_response" "patch_equipment_ok" {
 
 resource "aws_lambda_permission" "patch_equipment_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.patch_equipment_lambda.function_name}"
+  function_name = "${module.patch_equipment_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.patch_equipment.http_method}${aws_api_gateway_resource.equipment.path}"
 }
@@ -144,7 +144,7 @@ resource "aws_api_gateway_integration" "post_equipment" {
   http_method             = "${aws_api_gateway_method.post_equipment.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.post_equipment_lambda.invoke_arn}"
+  uri                     = "${module.post_equipment_lambda.lambda_invoke_arn}"
 }
 
 resource "aws_api_gateway_method_response" "post_equipment_ok" {
@@ -177,7 +177,7 @@ resource "aws_api_gateway_integration_response" "post_equipment_ok" {
 
 resource "aws_lambda_permission" "post_equipment_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.post_equipment_lambda.function_name}"
+  function_name = "${module.post_equipment_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.post_equipment.http_method}${aws_api_gateway_resource.equipment.path}"
 }
@@ -197,7 +197,7 @@ resource "aws_api_gateway_integration" "delete_equipment" {
   http_method             = "${aws_api_gateway_method.delete_equipment.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.delete_equipment_lambda.invoke_arn}"
+  uri                     = "${module.delete_equipment_lambda.lambda_invoke_arn}"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -239,7 +239,7 @@ resource "aws_api_gateway_integration_response" "delete_equipment_ok" {
 
 resource "aws_lambda_permission" "delete_equipment_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.delete_equipment_lambda.function_name}"
+  function_name = "${module.delete_equipment_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.delete_equipment.http_method}${aws_api_gateway_resource.equipment.path}"
 }

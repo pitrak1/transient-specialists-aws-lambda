@@ -19,7 +19,7 @@ resource "aws_api_gateway_integration" "get_events" {
   http_method             = "${aws_api_gateway_method.get_events.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.get_events_lambda.invoke_arn}"
+  uri                     = "${module.get_events_lambda.lambda_invoke_arn}"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -61,7 +61,7 @@ resource "aws_api_gateway_integration_response" "get_events_ok" {
 
 resource "aws_lambda_permission" "get_events_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.get_events_lambda.function_name}"
+  function_name = "${module.get_events_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.get_events.http_method}${aws_api_gateway_resource.events.path}"
 }
@@ -81,7 +81,7 @@ resource "aws_api_gateway_integration" "patch_events" {
   http_method             = "${aws_api_gateway_method.patch_events.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.patch_events_lambda.invoke_arn}"
+  uri                     = "${module.patch_events_lambda.lambda_invoke_arn}"
 }
 
 resource "aws_api_gateway_method_response" "patch_events_ok" {
@@ -114,7 +114,7 @@ resource "aws_api_gateway_integration_response" "patch_events_ok" {
 
 resource "aws_lambda_permission" "patch_events_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.patch_events_lambda.function_name}"
+  function_name = "${module.patch_events_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.patch_events.http_method}${aws_api_gateway_resource.events.path}"
 }
@@ -134,7 +134,7 @@ resource "aws_api_gateway_integration" "post_events" {
   http_method             = "${aws_api_gateway_method.post_events.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.post_events_lambda.invoke_arn}"
+  uri                     = "${module.post_events_lambda.lambda_invoke_arn}"
 }
 
 resource "aws_api_gateway_method_response" "post_events_ok" {
@@ -167,7 +167,7 @@ resource "aws_api_gateway_integration_response" "post_events_ok" {
 
 resource "aws_lambda_permission" "post_events_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.post_events_lambda.function_name}"
+  function_name = "${module.post_events_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.post_events.http_method}${aws_api_gateway_resource.events.path}"
 }
@@ -187,7 +187,7 @@ resource "aws_api_gateway_integration" "delete_events" {
   http_method             = "${aws_api_gateway_method.delete_events.http_method}"
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = "${aws_lambda_function.delete_events_lambda.invoke_arn}"
+  uri                     = "${module.delete_events_lambda.lambda_invoke_arn}"
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -229,7 +229,7 @@ resource "aws_api_gateway_integration_response" "delete_events_ok" {
 
 resource "aws_lambda_permission" "delete_events_lambda_permission" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.delete_events_lambda.function_name}"
+  function_name = "${module.delete_events_lambda.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.REGION}:${var.ACCOUNT_ID}:${aws_api_gateway_rest_api.transient_specialists.id}/*/${aws_api_gateway_method.delete_events.http_method}${aws_api_gateway_resource.events.path}"
 }
