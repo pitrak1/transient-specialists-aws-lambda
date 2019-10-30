@@ -10,9 +10,6 @@ exports.genericHandler = async (event, handler) => {
   console.log(body)
   return {
     statusCode,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
     body,
   }
 }
