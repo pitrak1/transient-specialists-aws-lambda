@@ -58,42 +58,111 @@ resource "aws_api_gateway_rest_api" "transient_specialists" {
 }
 
 resource "aws_api_gateway_deployment" "transient_specialists_deployment" {
-  depends_on = [
-    "aws_api_gateway_integration.get_equipment",
-    "aws_api_gateway_integration.patch_equipment",
-    "aws_api_gateway_integration.post_equipment",
-    "aws_api_gateway_integration.delete_equipment",
-    "aws_api_gateway_integration.options_equipment",
-    "aws_api_gateway_integration.get_events",
-    "aws_api_gateway_integration.patch_events",
-    "aws_api_gateway_integration.post_events",
-    "aws_api_gateway_integration.delete_events",
-    "aws_api_gateway_integration.options_events",
-    "aws_api_gateway_integration.get_models",
-    "aws_api_gateway_integration.patch_models",
-    "aws_api_gateway_integration.post_models",
-    "aws_api_gateway_integration.delete_models",
-    "aws_api_gateway_integration.options_models",
-    "aws_api_gateway_integration.get_oems",
-    "aws_api_gateway_integration.patch_oems",
-    "aws_api_gateway_integration.post_oems",
-    "aws_api_gateway_integration.delete_oems",
-    "aws_api_gateway_integration.options_oems",
-    "aws_api_gateway_integration.get_types",
-    "aws_api_gateway_integration.patch_types",
-    "aws_api_gateway_integration.post_types",
-    "aws_api_gateway_integration.delete_types",
-    "aws_api_gateway_integration.options_types",
-  ]
   rest_api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
   stage_name  = "default"
 }
 
+module "api_gateway_equipment_dev" {
+  source = "./api_gateway"
+
+  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  resource_path               = "equipment"
+  delete_lambda_invoke_arn    = "${module.delete_equipment_lambda.lambda_invoke_arn}"
+  delete_lambda_function_name = "${module.delete_equipment_lambda.lambda_function_name}"
+  get_lambda_invoke_arn       = "${module.get_equipment_lambda.lambda_invoke_arn}"
+  get_lambda_function_name    = "${module.get_equipment_lambda.lambda_function_name}"
+  patch_lambda_invoke_arn     = "${module.patch_equipment_lambda.lambda_invoke_arn}"
+  patch_lambda_function_name  = "${module.patch_equipment_lambda.lambda_function_name}"
+  post_lambda_invoke_arn      = "${module.post_equipment_lambda.lambda_invoke_arn}"
+  post_lambda_function_name   = "${module.post_equipment_lambda.lambda_function_name}"
+  origin                      = "${var.origin}"
+  region                      = "${var.region}"
+  account_id                  = "${var.account_id}"
+}
+
+module "api_gateway_models_dev" {
+  source = "./api_gateway"
+
+  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  resource_path               = "models"
+  delete_lambda_invoke_arn    = "${module.delete_models_lambda.lambda_invoke_arn}"
+  delete_lambda_function_name = "${module.delete_models_lambda.lambda_function_name}"
+  get_lambda_invoke_arn       = "${module.get_models_lambda.lambda_invoke_arn}"
+  get_lambda_function_name    = "${module.get_models_lambda.lambda_function_name}"
+  patch_lambda_invoke_arn     = "${module.patch_models_lambda.lambda_invoke_arn}"
+  patch_lambda_function_name  = "${module.patch_models_lambda.lambda_function_name}"
+  post_lambda_invoke_arn      = "${module.post_models_lambda.lambda_invoke_arn}"
+  post_lambda_function_name   = "${module.post_models_lambda.lambda_function_name}"
+  origin                      = "${var.origin}"
+  region                      = "${var.region}"
+  account_id                  = "${var.account_id}"
+}
+
+module "api_gateway_oems_dev" {
+  source = "./api_gateway"
+
+  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  resource_path               = "oems"
+  delete_lambda_invoke_arn    = "${module.delete_oems_lambda.lambda_invoke_arn}"
+  delete_lambda_function_name = "${module.delete_oems_lambda.lambda_function_name}"
+  get_lambda_invoke_arn       = "${module.get_oems_lambda.lambda_invoke_arn}"
+  get_lambda_function_name    = "${module.get_oems_lambda.lambda_function_name}"
+  patch_lambda_invoke_arn     = "${module.patch_oems_lambda.lambda_invoke_arn}"
+  patch_lambda_function_name  = "${module.patch_oems_lambda.lambda_function_name}"
+  post_lambda_invoke_arn      = "${module.post_oems_lambda.lambda_invoke_arn}"
+  post_lambda_function_name   = "${module.post_oems_lambda.lambda_function_name}"
+  origin                      = "${var.origin}"
+  region                      = "${var.region}"
+  account_id                  = "${var.account_id}"
+}
+
+module "api_gateway_types_dev" {
+  source = "./api_gateway"
+
+  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  resource_path               = "types"
+  delete_lambda_invoke_arn    = "${module.delete_types_lambda.lambda_invoke_arn}"
+  delete_lambda_function_name = "${module.delete_types_lambda.lambda_function_name}"
+  get_lambda_invoke_arn       = "${module.get_types_lambda.lambda_invoke_arn}"
+  get_lambda_function_name    = "${module.get_types_lambda.lambda_function_name}"
+  patch_lambda_invoke_arn     = "${module.patch_types_lambda.lambda_invoke_arn}"
+  patch_lambda_function_name  = "${module.patch_types_lambda.lambda_function_name}"
+  post_lambda_invoke_arn      = "${module.post_types_lambda.lambda_invoke_arn}"
+  post_lambda_function_name   = "${module.post_types_lambda.lambda_function_name}"
+  origin                      = "${var.origin}"
+  region                      = "${var.region}"
+  account_id                  = "${var.account_id}"
+}
+
+module "api_gateway_events_dev" {
+  source = "./api_gateway"
+
+  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  resource_path               = "events"
+  delete_lambda_invoke_arn    = "${module.delete_events_lambda.lambda_invoke_arn}"
+  delete_lambda_function_name = "${module.delete_events_lambda.lambda_function_name}"
+  get_lambda_invoke_arn       = "${module.get_events_lambda.lambda_invoke_arn}"
+  get_lambda_function_name    = "${module.get_events_lambda.lambda_function_name}"
+  patch_lambda_invoke_arn     = "${module.patch_events_lambda.lambda_invoke_arn}"
+  patch_lambda_function_name  = "${module.patch_events_lambda.lambda_function_name}"
+  post_lambda_invoke_arn      = "${module.post_events_lambda.lambda_invoke_arn}"
+  post_lambda_function_name   = "${module.post_events_lambda.lambda_function_name}"
+  origin                      = "${var.origin}"
+  region                      = "${var.region}"
+  account_id                  = "${var.account_id}"
+}
+
+
 module "rds_dev" {
   source = "./rds"
 
-  db_name            = "${var.DB_NAME}"
+  db_name            = "${var.db_name}"
   db_identifier      = "transient-specialists-dev"
-  db_master_username = "${var.DB_MASTER_USERNAME}"
-  db_master_password = "${var.DB_MASTER_PASSWORD}"
+  db_master_username = "${var.db_master_username}"
+  db_master_password = "${var.db_master_password}"
 }

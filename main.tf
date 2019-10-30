@@ -1,37 +1,37 @@
 provider "aws" {
   profile = "default"
-  region  = "${var.REGION}"
+  region  = "${var.region}"
 }
 module "main" {
   source             = "./terraform"
-  DB_MASTER_USERNAME = "${var.DB_MASTER_USERNAME}"
-  DB_MASTER_PASSWORD = "${var.DB_MASTER_PASSWORD}"
-  DB_NAME            = "${var.DB_NAME}"
-  ACCOUNT_ID         = "${var.ACCOUNT_ID}"
-  REGION             = "${var.REGION}"
-  ORIGIN             = "${var.ORIGIN}"
+  db_master_username = "${var.db_master_username}"
+  db_master_password = "${var.db_master_password}"
+  db_name            = "${var.db_name}"
+  account_id         = "${var.account_id}"
+  region             = "${var.region}"
+  origin             = "${var.origin}"
 }
 
-variable "DB_MASTER_USERNAME" {
+variable "db_master_username" {
   type = "string"
 }
 
-variable "DB_MASTER_PASSWORD" {
+variable "db_master_password" {
   type = "string"
 }
 
-variable "DB_NAME" {
+variable "db_name" {
   type = "string"
 }
 
-variable "ACCOUNT_ID" {
+variable "account_id" {
   type = "string"
 }
 
-variable "REGION" {
+variable "region" {
   type = "string"
 }
 
-variable "ORIGIN" {
+variable "origin" {
   type = "string"
 }

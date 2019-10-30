@@ -1,23 +1,23 @@
-variable "DB_MASTER_USERNAME" {
+variable "db_master_username" {
   type = "string"
 }
 
-variable "DB_MASTER_PASSWORD" {
+variable "db_master_password" {
   type = "string"
 }
 
-variable "DB_NAME" {
+variable "db_name" {
   type = "string"
 }
 
-variable "ACCOUNT_ID" {
+variable "account_id" {
   type = "string"
 }
 
-variable "REGION" {
+variable "region" {
   type = "string"
 }
 
-variable "ORIGIN" {
+variable "origin" {
   type = "string"
 }
