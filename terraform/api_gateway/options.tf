@@ -7,11 +7,20 @@ resource "aws_api_gateway_method" "options_method" {
 }
 
 resource "aws_api_gateway_integration" "options_integration" {
-  rest_api_id = "${var.rest_api_id}"
-  resource_id = "${aws_api_gateway_resource.api_gateway_resource.id}"
-  http_method = "${aws_api_gateway_method.options_method.http_method}"
-  type        = "MOCK"
-  depends_on  = ["aws_api_gateway_method.options_method"]
+  rest_api_id          = "${var.rest_api_id}"
+  resource_id          = "${aws_api_gateway_resource.api_gateway_resource.id}"
+  http_method          = "${aws_api_gateway_method.options_method.http_method}"
+  type                 = "MOCK"
+  depends_on           = ["aws_api_gateway_method.options_method"]
+  passthrough_behavior = "WHEN_NO_TEMPLATES"
+
+  request_templates = {
+    "application/json" = <<EOF
+{
+  "statusCode": 200
+}
+EOF
+  }
 }
 
 resource "aws_api_gateway_method_response" "options_method_response" {

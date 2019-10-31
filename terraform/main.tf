@@ -62,6 +62,25 @@ resource "aws_api_gateway_deployment" "transient_specialists_deployment" {
   stage_name  = "default"
 }
 
+resource "aws_api_gateway_api_key" "transient_specialists_api_key" {
+  name = "Amplify"
+}
+
+resource "aws_api_gateway_usage_plan" "transient_specialists_usage_plan" {
+  name = "Amplify"
+
+  api_stages {
+    api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
+    stage  = "${aws_api_gateway_deployment.transient_specialists_deployment.stage_name}"
+  }
+}
+
+resource "aws_api_gateway_usage_plan_key" "transient_specialists_usage_plan_key" {
+  key_id        = "${aws_api_gateway_api_key.transient_specialists_api_key.id}"
+  key_type      = "API_KEY"
+  usage_plan_id = "${aws_api_gateway_usage_plan.transient_specialists_usage_plan.id}"
+}
+
 module "api_gateway_equipment_dev" {
   source = "./api_gateway"
 
