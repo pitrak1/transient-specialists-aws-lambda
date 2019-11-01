@@ -81,7 +81,7 @@ exports.getIndexCount = event => {
   return `
     SELECT COUNT(*)
     FROM RecentEvents
-    INNER JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
+    RIGHT JOIN Equipments ON Equipments.id = RecentEvents.equipment_id
     INNER JOIN Types ON Equipments.type_id = Types.id
     INNER JOIN Models ON Equipments.model_id = Models.id
     INNER JOIN Oems ON Models.oem_id = Oems.id
