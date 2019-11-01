@@ -10,11 +10,11 @@ resource "aws_db_instance" "db_instance" {
   username               = "${var.db_master_username}"
   password               = "${var.db_master_password}"
   publicly_accessible    = "true"
-  vpc_security_group_ids = ["${aws_security_group.allow_tcp.id}"]
+  vpc_security_group_ids = ["${aws_security_group.security_group.id}"]
   skip_final_snapshot    = "true"
 }
 
-resource "aws_security_group" "allow_tcp" {
+resource "aws_security_group" "security_group" {
   name        = "allow_tcp"
   description = "Allow TPC traffic"
 

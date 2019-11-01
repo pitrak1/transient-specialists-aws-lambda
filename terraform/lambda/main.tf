@@ -12,7 +12,7 @@ resource "aws_lambda_function" "lambda_function" {
   filename         = "${data.archive_file.zip.output_path}"
   source_code_hash = "${data.archive_file.zip.output_base64sha256}"
 
-  role    = "${aws_iam_role.iam_for_lambda.arn}"
+  role    = "${aws_iam_role.lambda_iam_role.arn}"
   handler = "${var.handler}"
   runtime = "nodejs10.x"
 
@@ -56,7 +56,7 @@ resource "aws_iam_policy" "lambda_policy" {
 EOF
 }
 
-data "aws_iam_policy_document" "policy" {
+data "aws_iam_policy_document" "lambda_policy_document" {
   statement {
     sid    = ""
     effect = "Allow"
@@ -71,10 +71,10 @@ data "aws_iam_policy_document" "policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_role_policy_attachment" {
-  role       = "${aws_iam_role.iam_for_lambda.name}"
+  role       = "${aws_iam_role.lambda_iam_role.name}"
   policy_arn = "${aws_iam_policy.lambda_policy.arn}"
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  assume_role_policy = "${data.aws_iam_policy_document.policy.json}"
+resource "aws_iam_role" "lambda_iam_role" {
+  assume_role_policy = "${data.aws_iam_policy_document.lambda_policy_document.json}"
 }

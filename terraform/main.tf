@@ -6,7 +6,7 @@ data "archive_file" "zip" {
   output_path = "lambda.zip"
 }
 
-resource "aws_iam_policy" "lambda_logging" {
+resource "aws_iam_policy" "iam_policy" {
   name        = "lambda_logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
@@ -29,7 +29,7 @@ resource "aws_iam_policy" "lambda_logging" {
 EOF
 }
 
-data "aws_iam_policy_document" "policy" {
+data "aws_iam_policy_document" "iam_policy_document" {
   statement {
     sid    = ""
     effect = "Allow"
@@ -43,49 +43,49 @@ data "aws_iam_policy_document" "policy" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role       = "${aws_iam_role.iam_for_lambda.name}"
-  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
+resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment" {
+  role       = "${aws_iam_role.iam_role.name}"
+  policy_arn = "${aws_iam_policy.iam_policy.arn}"
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
-  assume_role_policy = "${data.aws_iam_policy_document.policy.json}"
+resource "aws_iam_role" "iam_role" {
+  name               = "lambda_iam_role"
+  assume_role_policy = "${data.aws_iam_policy_document.iam_policy_document.json}"
 }
 
-resource "aws_api_gateway_rest_api" "transient_specialists" {
+resource "aws_api_gateway_rest_api" "api_gateway_rest_api" {
   name = "Transient Specialists"
 }
 
-resource "aws_api_gateway_deployment" "transient_specialists_deployment" {
-  rest_api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
+resource "aws_api_gateway_deployment" "api_gateway_deployment" {
+  rest_api_id = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
   stage_name  = "default"
 }
 
-resource "aws_api_gateway_api_key" "transient_specialists_api_key" {
+resource "aws_api_gateway_api_key" "api_gateway_api_key" {
   name = "Amplify"
 }
 
-resource "aws_api_gateway_usage_plan" "transient_specialists_usage_plan" {
+resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
   name = "Amplify"
 
   api_stages {
-    api_id = "${aws_api_gateway_rest_api.transient_specialists.id}"
-    stage  = "${aws_api_gateway_deployment.transient_specialists_deployment.stage_name}"
+    api_id = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+    stage  = "${aws_api_gateway_deployment.api_gateway_deployment.stage_name}"
   }
 }
 
-resource "aws_api_gateway_usage_plan_key" "transient_specialists_usage_plan_key" {
-  key_id        = "${aws_api_gateway_api_key.transient_specialists_api_key.id}"
+resource "aws_api_gateway_usage_plan_key" "api_gateway_usage_plan_key" {
+  key_id        = "${aws_api_gateway_api_key.api_gateway_api_key.id}"
   key_type      = "API_KEY"
-  usage_plan_id = "${aws_api_gateway_usage_plan.transient_specialists_usage_plan.id}"
+  usage_plan_id = "${aws_api_gateway_usage_plan.api_gateway_usage_plan.id}"
 }
 
-module "api_gateway_equipment_dev" {
+module "api_gateway_equipment" {
   source = "./api_gateway"
 
-  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
-  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  rest_api_id                 = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
   resource_path               = "equipment"
   delete_lambda_invoke_arn    = "${module.delete_equipment_lambda.lambda_invoke_arn}"
   delete_lambda_function_name = "${module.delete_equipment_lambda.lambda_function_name}"
@@ -100,11 +100,11 @@ module "api_gateway_equipment_dev" {
   account_id                  = "${var.account_id}"
 }
 
-module "api_gateway_models_dev" {
+module "api_gateway_models" {
   source = "./api_gateway"
 
-  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
-  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  rest_api_id                 = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
   resource_path               = "models"
   delete_lambda_invoke_arn    = "${module.delete_models_lambda.lambda_invoke_arn}"
   delete_lambda_function_name = "${module.delete_models_lambda.lambda_function_name}"
@@ -119,11 +119,11 @@ module "api_gateway_models_dev" {
   account_id                  = "${var.account_id}"
 }
 
-module "api_gateway_oems_dev" {
+module "api_gateway_oems" {
   source = "./api_gateway"
 
-  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
-  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  rest_api_id                 = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
   resource_path               = "oems"
   delete_lambda_invoke_arn    = "${module.delete_oems_lambda.lambda_invoke_arn}"
   delete_lambda_function_name = "${module.delete_oems_lambda.lambda_function_name}"
@@ -138,11 +138,11 @@ module "api_gateway_oems_dev" {
   account_id                  = "${var.account_id}"
 }
 
-module "api_gateway_types_dev" {
+module "api_gateway_types" {
   source = "./api_gateway"
 
-  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
-  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  rest_api_id                 = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
   resource_path               = "types"
   delete_lambda_invoke_arn    = "${module.delete_types_lambda.lambda_invoke_arn}"
   delete_lambda_function_name = "${module.delete_types_lambda.lambda_function_name}"
@@ -157,11 +157,11 @@ module "api_gateway_types_dev" {
   account_id                  = "${var.account_id}"
 }
 
-module "api_gateway_events_dev" {
+module "api_gateway_events" {
   source = "./api_gateway"
 
-  rest_api_id                 = "${aws_api_gateway_rest_api.transient_specialists.id}"
-  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.transient_specialists.root_resource_id}"
+  rest_api_id                 = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
   resource_path               = "events"
   delete_lambda_invoke_arn    = "${module.delete_events_lambda.lambda_invoke_arn}"
   delete_lambda_function_name = "${module.delete_events_lambda.lambda_function_name}"
@@ -177,11 +177,11 @@ module "api_gateway_events_dev" {
 }
 
 
-module "rds_dev" {
+module "rds" {
   source = "./rds"
 
   db_name            = "${var.db_name}"
-  db_identifier      = "transient-specialists-dev"
+  db_identifier      = "transient-specialists"
   db_master_username = "${var.db_master_username}"
   db_master_password = "${var.db_master_password}"
 }
