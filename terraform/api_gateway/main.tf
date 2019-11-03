@@ -5,7 +5,7 @@ resource "aws_api_gateway_resource" "api_gateway_resource" {
 }
 
 module "delete_resource" {
-  source = "./api_gateway_method"
+  source = "./api_gateway_mapped_method"
 
   rest_api_id          = "${var.rest_api_id}"
   resource_id          = "${aws_api_gateway_resource.api_gateway_resource.id}"
@@ -19,7 +19,7 @@ module "delete_resource" {
 }
 
 module "get_resource" {
-  source = "./api_gateway_method"
+  source = "./api_gateway_mapped_method"
 
   rest_api_id          = "${var.rest_api_id}"
   resource_id          = "${aws_api_gateway_resource.api_gateway_resource.id}"

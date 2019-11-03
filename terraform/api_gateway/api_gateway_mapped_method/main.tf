@@ -14,6 +14,23 @@ resource "aws_api_gateway_integration" "api_gateway_integration" {
   integration_http_method = "POST"
   type                    = "AWS"
   uri                     = "${var.lambda_invoke_arn}"
+  passthrough_behavior    = "WHEN_NO_TEMPLATES"
+
+  request_templates = {
+    "application/json" = <<EOF
+{
+  "ascending": "$input.params('ascending')",
+  "page": "$input.params('page')",
+  "perPage": "$input.params('perPage')",
+  "searchValue": "$input.params('searchValue')",
+  "sortBy": "$input.params('sortBy')",
+  "id": "$input.params('id')",
+  "new": "$input.params('new')",
+  "show": "$input.params('show')",
+  "edit": "$input.params('edit')"
+}
+EOF
+  }
 }
 
 resource "aws_api_gateway_method_response" "api_gateway_method_response" {
