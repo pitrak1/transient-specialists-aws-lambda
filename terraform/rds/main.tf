@@ -4,6 +4,7 @@ resource "aws_db_instance" "db_instance" {
   storage_type           = "gp2"
   engine                 = "postgres"
   engine_version         = "10.6"
+  deletion_protection    = "true"
   identifier             = "${var.db_identifier}"
   instance_class         = "db.t2.micro"
   name                   = "${var.db_name}"
