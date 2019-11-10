@@ -27,7 +27,8 @@ resource "aws_api_gateway_integration" "api_gateway_integration" {
   "id": "$input.params('id')",
   "new": "$input.params('new')",
   "show": "$input.params('show')",
-  "edit": "$input.params('edit')"
+  "edit": "$input.params('edit')",
+  "hideSold": "$input.params('hideSold')"
 }
 EOF
   }

@@ -26,13 +26,23 @@ exports.getShow = event => `
 `
 
 exports.getIndex = event => {
-  let search = ''
+  let condition = ''
   if (event.searchValue) {
-    search = `
-      WHERE LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
+    condition = `
+      WHERE (LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
       OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
       OR LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
-      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%')
+    `
+
+    if (event.hideSold === 'true') {
+      condition.concat(`
+        AND RecentEvents.status != 'SOLD'
+      `)
+    }
+  } else if (event.hideSold === 'true') {
+    condition = `
+      WHERE RecentEvents.status != 'SOLD'
     `
   }
 
@@ -60,7 +70,7 @@ exports.getIndex = event => {
     INNER JOIN Types ON Equipments.type_id = Types.id
     INNER JOIN Models ON Equipments.model_id = Models.id
     INNER JOIN Oems ON Models.oem_id = Oems.id
-    ${search}
+    ${condition}
     ORDER BY ${event.sortBy} ${event.ascending === 'true' ? 'ASC' : 'DESC'}
     LIMIT ${event.perPage}
     OFFSET ${parseInt(event.page) * parseInt(event.perPage)};
@@ -68,13 +78,23 @@ exports.getIndex = event => {
 }
 
 exports.getIndexCount = event => {
-  let search = ''
+  let condition = ''
   if (event.searchValue) {
-    search = `
-      WHERE LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
+    condition = `
+      WHERE (LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
       OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
       OR LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
-      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%')
+    `
+
+    if (event.hideSold === 'true') {
+      condition.concat(`
+        AND RecentEvents.status != 'SOLD'
+      `)
+    }
+  } else if (event.hideSold === 'true') {
+    condition = `
+      WHERE RecentEvents.status != 'SOLD'
     `
   }
 
@@ -85,7 +105,7 @@ exports.getIndexCount = event => {
     INNER JOIN Types ON Equipments.type_id = Types.id
     INNER JOIN Models ON Equipments.model_id = Models.id
     INNER JOIN Oems ON Models.oem_id = Oems.id
-    ${search};
+    ${condition};
   `
 }
 
