@@ -36,7 +36,7 @@ exports.getIndex = event => {
     `
 
     if (event.hideSold === 'true') {
-      condition.concat(`
+      condition = condition.concat(`
         AND RecentEvents.status != 'SOLD'
       `)
     }
@@ -88,7 +88,7 @@ exports.getIndexCount = event => {
     `
 
     if (event.hideSold === 'true') {
-      condition.concat(`
+      condition = condition.concat(`
         AND RecentEvents.status != 'SOLD'
       `)
     }
