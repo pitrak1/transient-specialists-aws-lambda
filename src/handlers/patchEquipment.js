@@ -7,9 +7,12 @@ exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
       await client.query(equipmentQueries.update(event))
+      const result = await client.query(
+        equipmentQueries.findBySerialNumber(event),
+      )
       return {
         statusCode: 200,
-        body: {},
+        body: { equipment: result.rows[0] },
       }
     } catch (e) {
       return {
