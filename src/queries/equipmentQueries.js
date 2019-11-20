@@ -32,7 +32,8 @@ exports.getIndex = event => {
       WHERE (LOWER(Equipments.serial_number) LIKE '%${event.searchValue.toLowerCase()}%'
       OR LOWER(Oems.name) LIKE '%${event.searchValue.toLowerCase()}%'
       OR LOWER(Models.name) LIKE '%${event.searchValue.toLowerCase()}%'
-      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%')
+      OR LOWER(Types.name) LIKE '%${event.searchValue.toLowerCase()}%'
+      OR LOWER(RecentEvents.job_number) LIKE '%${event.searchValue.toLowerCase()}%')
     `
 
     if (event.hideSold === 'true') {
