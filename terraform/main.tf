@@ -62,11 +62,11 @@ resource "aws_api_gateway_deployment" "api_gateway_deployment" {
   stage_name  = "default"
 }
 
-resource "aws_api_gateway_api_key" "api_gateway_api_key" {
+resource "aws_api_gateway_api_key" "api_gateway_amplify_api_key" {
   name = "Amplify"
 }
 
-resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
+resource "aws_api_gateway_usage_plan" "api_gateway_amplify_usage_plan" {
   name = "Amplify"
 
   api_stages {
@@ -75,10 +75,29 @@ resource "aws_api_gateway_usage_plan" "api_gateway_usage_plan" {
   }
 }
 
-resource "aws_api_gateway_usage_plan_key" "api_gateway_usage_plan_key" {
-  key_id        = "${aws_api_gateway_api_key.api_gateway_api_key.id}"
+resource "aws_api_gateway_usage_plan_key" "api_gateway_amplify_usage_plan_key" {
+  key_id        = "${aws_api_gateway_api_key.api_gateway_amplify_api_key.id}"
   key_type      = "API_KEY"
-  usage_plan_id = "${aws_api_gateway_usage_plan.api_gateway_usage_plan.id}"
+  usage_plan_id = "${aws_api_gateway_usage_plan.api_gateway_amplify_usage_plan.id}"
+}
+
+resource "aws_api_gateway_api_key" "api_gateway_sync_api_key" {
+  name = "Sync"
+}
+
+resource "aws_api_gateway_usage_plan" "api_gateway_sync_usage_plan" {
+  name = "Sync"
+
+  api_stages {
+    api_id = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+    stage  = "${aws_api_gateway_deployment.api_gateway_deployment.stage_name}"
+  }
+}
+
+resource "aws_api_gateway_usage_plan_key" "api_gateway_sync_usage_plan_key" {
+  key_id        = "${aws_api_gateway_api_key.api_gateway_sync_api_key.id}"
+  key_type      = "API_KEY"
+  usage_plan_id = "${aws_api_gateway_usage_plan.api_gateway_sync_usage_plan.id}"
 }
 
 module "api_gateway_equipment" {
