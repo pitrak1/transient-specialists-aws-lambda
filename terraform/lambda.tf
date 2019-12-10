@@ -58,6 +58,18 @@ module "delete_types_lambda" {
   lambda_log_group_name = "/aws/lambda/deleteTypes"
 }
 
+module "delete_itemgroups_lambda" {
+  source = "./lambda"
+
+  function_name         = "deleteItemGroups"
+  handler               = "handlers/deleteItemGroups.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/deleteItemGroups"
+}
+
 module "get_equipment_lambda" {
   source = "./lambda"
 
@@ -116,6 +128,18 @@ module "get_types_lambda" {
   db_master_password    = "${var.db_master_password}"
   db_name               = "${var.db_name}"
   lambda_log_group_name = "/aws/lambda/getTypes"
+}
+
+module "get_itemgroups_lambda" {
+  source = "./lambda"
+
+  function_name         = "getItemGroups"
+  handler               = "handlers/getItemGroups.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/getItemGroups"
 }
 
 module "patch_equipment_lambda" {
@@ -178,6 +202,18 @@ module "patch_types_lambda" {
   lambda_log_group_name = "/aws/lambda/patchTypes"
 }
 
+module "patch_itemgroups_lambda" {
+  source = "./lambda"
+
+  function_name         = "patchItemGroups"
+  handler               = "handlers/patchItemGroups.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/patchItemGroups"
+}
+
 module "post_equipment_lambda" {
   source = "./lambda"
 
@@ -238,12 +274,14 @@ module "post_types_lambda" {
   lambda_log_group_name = "/aws/lambda/postTypes"
 }
 
+module "post_itemgroups_lambda" {
+  source = "./lambda"
 
-
-
-
-
-
-
-
-
+  function_name         = "postItemGroups"
+  handler               = "handlers/postItemGroups.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/postItemGroups"
+}

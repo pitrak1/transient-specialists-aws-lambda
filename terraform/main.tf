@@ -176,6 +176,24 @@ module "api_gateway_events" {
   account_id                  = "${var.account_id}"
 }
 
+module "api_gateway_itemgroups" {
+  source = "./api_gateway"
+
+  rest_api_id                 = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  rest_api_root_resource_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
+  resource_path               = "itemgroups"
+  delete_lambda_invoke_arn    = "${module.delete_itemgroups_lambda.lambda_invoke_arn}"
+  delete_lambda_function_name = "${module.delete_itemgroups_lambda.lambda_function_name}"
+  get_lambda_invoke_arn       = "${module.get_itemgroups_lambda.lambda_invoke_arn}"
+  get_lambda_function_name    = "${module.get_itemgroups_lambda.lambda_function_name}"
+  patch_lambda_invoke_arn     = "${module.patch_itemgroups_lambda.lambda_invoke_arn}"
+  patch_lambda_function_name  = "${module.patch_itemgroups_lambda.lambda_function_name}"
+  post_lambda_invoke_arn      = "${module.post_itemgroups_lambda.lambda_invoke_arn}"
+  post_lambda_function_name   = "${module.post_itemgroups_lambda.lambda_function_name}"
+  origin                      = "${var.origin}"
+  region                      = "${var.region}"
+  account_id                  = "${var.account_id}"
+}
 
 module "rds" {
   source = "./rds"
