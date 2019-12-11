@@ -1,6 +1,6 @@
 const utils = require('../utils')
 const itemGroupQueries = require('../queries/itemGroupQueries')
-const modelQueries = require('../queries/modelQueries')
+const oemQueries = require('../queries/oemQueries')
 
 const client = utils.createDbConnection()
 
@@ -13,9 +13,10 @@ exports.handler = async (event, _context, _callback) => {
     const handlesResult = await client.query(itemGroupQueries.getHandles(event))
     itemGroup.handles = handlesResult.rows
     const models = await client.query(itemGroupQueries.getOtherModels(event))
+    const oems = await client.query(oemQueries.getAll())
     return {
       statusCode: 200,
-      body: { itemGroup, models: models.rows },
+      body: { itemGroup, models: models.rows, oems: oems.rows },
     }
   }
 

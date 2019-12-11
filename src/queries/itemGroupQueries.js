@@ -26,7 +26,8 @@ exports.getOtherModels = event => `
   SELECT
     Models.id,
     Models.name,
-    Models.item_group_id
+    Models.item_group_id,
+    Models.oem_id
   FROM Models
   WHERE Models.item_group_id IS NULL;
 `
