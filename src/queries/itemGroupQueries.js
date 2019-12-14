@@ -15,21 +15,24 @@ exports.getShow = event => `
 
 exports.getModels = event => `
   SELECT
+    ItemGroupsModels.item_group_id,
     Models.id,
     Models.name,
-    Models.item_group_id
-  FROM Models
-  WHERE Models.item_group_id = ${event.id};
+    Models.oem_id
+  FROM ItemGroupsModels
+  INNER JOIN Models ON ItemGroupsModels.model_id = Models.id
+  WHERE ItemGroupsModels.item_group_id = ${event.id};
 `
 
 exports.getOtherModels = event => `
   SELECT
     Models.id,
     Models.name,
-    Models.item_group_id,
-    Models.oem_id
+    Models.oem_id,
+    ItemGroupsModels.item_group_id
   FROM Models
-  WHERE Models.item_group_id IS NULL;
+  LEFT JOIN ItemGroupsModels on Models.id = ItemGroupsModels.model_id
+  WHERE (ItemGroupsModels.item_group_id != ${event.id}) OR (ItemGroupsModels.item_group_id IS NULL)
 `
 
 exports.getHandles = event => `
@@ -79,12 +82,22 @@ exports.update = event => `
   WHERE ItemGroups.id = ${event.id};
 `
 
-exports.updateAdd = event => `
+exports.updateAddModel = event => `
+  INSERT INTO ItemGroupsModels (model_id, item_group_id)
+  VALUES (${event.id}, ${event.itemGroupId});
+`
+
+exports.updateAddHandle = event => `
   INSERT INTO Handles (handle, item_group_id)
   VALUES ('${event.handle}', ${event.id});
 `
 
-exports.updateRemove = event => `
+exports.updateRemoveModel = event => `
+  DELETE FROM ItemGroupsModels
+  WHERE model_id = ${event.id} AND item_group_id = ${event.itemGroupId};
+`
+
+exports.updateRemoveHandle = event => `
   DELETE FROM Handles
   WHERE Handles.id = ${event.handleId};
 `

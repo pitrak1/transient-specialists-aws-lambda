@@ -66,12 +66,6 @@ exports.update = event => `
   WHERE Models.id = ${event.id};
 `
 
-exports.updateItemGroup = event => `
-  UPDATE Models
-  SET item_group_id = ${event.itemGroupId}
-  WHERE Models.id = ${event.id};
-`
-
 exports.create = event => `
   INSERT INTO Models (name, oem_id)
   VALUES ('${event.name}', ${event.oemId});

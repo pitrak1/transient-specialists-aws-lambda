@@ -12,20 +12,9 @@ exports.handler = async (event, _context, _callback) => {
     }
   }
 
-  const updateItemGroupHandler = async event => {
-    await client.query(modelQueries.updateItemGroup(event))
-    return {
-      statusCode: 200,
-      body: {},
-    }
-  }
-
   const handler = async event => {
     try {
-      if (event.itemGroup) {
-        return await updateItemGroupHandler(event)
-      }
-      return await updateHandler()
+      return await updateHandler(event)
     } catch (e) {
       return {
         statusCode: 500,

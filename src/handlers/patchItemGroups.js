@@ -4,16 +4,32 @@ const itemGroupsQueries = require('../queries/itemGroupQueries')
 const client = utils.createDbConnection()
 
 exports.handler = async (event, _context, _callback) => {
-  const updateAddHandler = async () => {
-    await client.query(itemGroupsQueries.updateAdd(event))
+  const updateAddModelHandler = async () => {
+    await client.query(itemGroupsQueries.updateAddModel(event))
     return {
       statusCode: 200,
       body: {},
     }
   }
 
-  const updateRemoveHandler = async () => {
-    await client.query(itemGroupsQueries.updateRemove(event))
+  const updateAddHandleHandler = async () => {
+    await client.query(itemGroupsQueries.updateAddHandle(event))
+    return {
+      statusCode: 200,
+      body: {},
+    }
+  }
+
+  const updateRemoveModelHandler = async () => {
+    await client.query(itemGroupsQueries.updateRemoveModel(event))
+    return {
+      statusCode: 200,
+      body: {},
+    }
+  }
+
+  const updateRemoveHandleHandler = async () => {
+    await client.query(itemGroupsQueries.updateRemoveHandle(event))
     return {
       statusCode: 200,
       body: {},
@@ -31,9 +47,17 @@ exports.handler = async (event, _context, _callback) => {
   const handler = async event => {
     try {
       if (event.add) {
-        return await updateAddHandler()
+        if (event.model) {
+          return await updateAddModelHandler()
+        } else {
+          return await updateAddHandleHandler()
+        }
       } else if (event.remove) {
-        return await updateRemoveHandler()
+        if (event.model) {
+          return await updateRemoveModelHandler()
+        } else {
+          return await updateRemoveHandleHandler()
+        }
       }
       return await updateHandler()
     } catch (e) {
