@@ -59,3 +59,11 @@ module "post_resource" {
   region               = "${var.region}"
   account_id           = "${var.account_id}"
 }
+
+module "options_resource" {
+  source = "./api_gateway_options_method"
+
+  rest_api_id = "${var.rest_api_id}"
+  resource_id = "${aws_api_gateway_resource.api_gateway_resource.id}"
+  origin      = "${var.origin}"
+}

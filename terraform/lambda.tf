@@ -285,3 +285,15 @@ module "post_itemgroups_lambda" {
   db_name               = "${var.db_name}"
   lambda_log_group_name = "/aws/lambda/postItemGroups"
 }
+
+module "generate_reports_lambda" {
+  source = "./lambda"
+
+  function_name         = "generateReports"
+  handler               = "handlers/generateReports.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/generateReports"
+}
