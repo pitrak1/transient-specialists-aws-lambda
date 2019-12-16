@@ -8,7 +8,8 @@ exports.getCount = id => `
     SELECT COUNT(*), ItemGroupsModels.model_id
     FROM Equipments
     INNER JOIN ItemGroupsModels ON Equipments.model_id = ItemGroupsModels.model_id
-    WHERE ItemGroupsModels.item_group_id = ${id}
+    LEFT JOIN RecentEvents ON Equipments.id = RecentEvents.equipment_id
+    WHERE ItemGroupsModels.item_group_id = ${id} AND (RecentEvents.status = 'READY' OR RecentEvents.status = 'IN')
     GROUP BY ItemGroupsModels.model_id
   ) AS Counts;
 `
