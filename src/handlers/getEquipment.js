@@ -4,6 +4,7 @@ const eventQueries = require('../queries/eventQueries')
 const oemQueries = require('../queries/oemQueries')
 const modelQueries = require('../queries/modelQueries')
 const typeQueries = require('../queries/typeQueries')
+const fileQueries = require('../queries/fileQueries')
 
 const client = utils.createDbConnection()
 
@@ -20,6 +21,7 @@ exports.handler = async (event, _context, _callback) => {
 
   const showHandler = async event => {
     const events = await client.query(eventQueries.getByEquipmentId(event))
+    const files = await client.query(fileQueries.getByEquipmentId(event))
     const equipment = await client.query(equipmentQueries.getShow(event))
     const count = await client.query(eventQueries.getByEquipmentIdCount(event))
     return {
@@ -27,6 +29,7 @@ exports.handler = async (event, _context, _callback) => {
       body: {
         equipment: equipment.rows[0],
         events: events.rows,
+        files: files.rows,
         count: count.rows[0].count,
       },
     }

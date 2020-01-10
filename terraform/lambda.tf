@@ -297,3 +297,39 @@ module "generate_reports_lambda" {
   db_name               = "${var.db_name}"
   lambda_log_group_name = "/aws/lambda/generateReports"
 }
+
+module "post_files_lambda" {
+  source = "./lambda"
+
+  function_name         = "postFiles"
+  handler               = "handlers/postFiles.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/postFiles"
+}
+
+module "delete_files_lambda" {
+  source = "./lambda"
+
+  function_name         = "deleteFiles"
+  handler               = "handlers/deleteFiles.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/deleteFiles"
+}
+
+module "get_files_lambda" {
+  source = "./lambda"
+
+  function_name         = "getFiles"
+  handler               = "handlers/getFiles.handler"
+  db_instance_address   = "${module.rds.db_instance_address}"
+  db_master_username    = "${var.db_master_username}"
+  db_master_password    = "${var.db_master_password}"
+  db_name               = "${var.db_name}"
+  lambda_log_group_name = "/aws/lambda/getFiles"
+}

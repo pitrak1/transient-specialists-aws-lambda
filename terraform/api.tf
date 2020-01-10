@@ -167,3 +167,59 @@ module "reports_options_method" {
   resource_id = "${aws_api_gateway_resource.reports_resource.id}"
   origin      = "${var.origin}"
 }
+
+resource "aws_api_gateway_resource" "files_resource" {
+  rest_api_id = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  parent_id   = "${aws_api_gateway_rest_api.api_gateway_rest_api.root_resource_id}"
+  path_part   = "files"
+}
+
+module "files_post_method" {
+  source = "./api_gateway/api_gateway_method"
+
+  rest_api_id          = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  resource_id          = "${aws_api_gateway_resource.files_resource.id}"
+  resource_path        = "${aws_api_gateway_resource.files_resource.path}"
+  http_method          = "POST"
+  lambda_invoke_arn    = "${module.post_files_lambda.lambda_invoke_arn}"
+  lambda_function_name = "${module.post_files_lambda.lambda_function_name}"
+  origin               = "${var.origin}"
+  region               = "${var.region}"
+  account_id           = "${var.account_id}"
+}
+
+module "files_delete_method" {
+  source = "./api_gateway/api_gateway_mapped_method"
+
+  rest_api_id          = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  resource_id          = "${aws_api_gateway_resource.files_resource.id}"
+  resource_path        = "${aws_api_gateway_resource.files_resource.path}"
+  http_method          = "DELETE"
+  lambda_invoke_arn    = "${module.delete_files_lambda.lambda_invoke_arn}"
+  lambda_function_name = "${module.delete_files_lambda.lambda_function_name}"
+  origin               = "${var.origin}"
+  region               = "${var.region}"
+  account_id           = "${var.account_id}"
+}
+
+module "files_get_method" {
+  source = "./api_gateway/api_gateway_mapped_method"
+
+  rest_api_id          = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  resource_id          = "${aws_api_gateway_resource.files_resource.id}"
+  resource_path        = "${aws_api_gateway_resource.files_resource.path}"
+  http_method          = "GET"
+  lambda_invoke_arn    = "${module.get_files_lambda.lambda_invoke_arn}"
+  lambda_function_name = "${module.get_files_lambda.lambda_function_name}"
+  origin               = "${var.origin}"
+  region               = "${var.region}"
+  account_id           = "${var.account_id}"
+}
+
+module "files_options_method" {
+  source = "./api_gateway/api_gateway_options_method"
+
+  rest_api_id = "${aws_api_gateway_rest_api.api_gateway_rest_api.id}"
+  resource_id = "${aws_api_gateway_resource.files_resource.id}"
+  origin      = "${var.origin}"
+}

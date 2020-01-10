@@ -27,10 +27,12 @@ exports.handler = async (event, _context, _callback) => {
         ? item.event_company_notes.replace(/,/g, '')
         : ''
       const startDate = item.event_start_date
-        ? item.event_start_date.replace(/,/g, '')
+        ? `${item.event_start_date.getFullYear()}/${item.event_start_date.getMonth() +
+            1}/${item.event_start_date.getDate()}`
         : ''
       const endDate = item.event_end_date
-        ? item.event_end_date.replace(/,/g, '')
+        ? `${item.event_end_date.getFullYear()}/${item.event_end_date.getMonth() +
+            1}/${item.event_end_date.getDate()}`
         : ''
 
       result += `\n${serialNumber},${model},${oem},${type},${notes},${calCompany},${calDue},${status},${jobNumber},${companyNotes},${startDate},${endDate}`
