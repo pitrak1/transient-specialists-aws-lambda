@@ -19,7 +19,7 @@ exports.handler = async (event, _context, _callback) => {
         ? item.cal_company.replace(/,/g, '')
         : ''
       const calDue = item.cal_due ? item.cal_due.replace(/,/g, '') : ''
-      const status = item.event_status.replace(/,/g, '')
+      const status = item.event_status ? item.event_status.replace(/,/g, '') : ''
       const jobNumber = item.event_job_number
         ? item.event_job_number.replace(/,/g, '')
         : ''
