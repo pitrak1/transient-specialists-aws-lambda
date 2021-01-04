@@ -15,7 +15,7 @@ exports.deleteById = event => `
 `
 
 exports.getByEquipmentId = event => `
-  SELECT *
+  SELECT id, name, equipment_id
   FROM Files
   WHERE Files.equipment_id = ${event.id};
 `
