@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -14,8 +11,6 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "babel-jest": "^24.9.0",
-    "jest": "^24.9.0",
     "sinon": "^7.4.1"
   },
   "repository": {
