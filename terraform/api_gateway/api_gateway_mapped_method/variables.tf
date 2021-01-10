@@ -1,35 +1,35 @@
 variable "rest_api_id" {
-  type = "string"
+  type = string
 }
 
 variable "resource_id" {
-  type = "string"
+  type = string
 }
 
 variable "resource_path" {
-  type = "string"
+  type = string
 }
 
 variable "http_method" {
-  type = "string"
+  type = string
 }
 
 variable "lambda_invoke_arn" {
-  type = "string"
+  type = string
 }
 
 variable "origin" {
-  type = "string"
+  type = string
 }
 
 variable "lambda_function_name" {
-  type = "string"
+  type = string
 }
 
 variable "region" {
-  type = "string"
+  type = string
 }
 
 variable "account_id" {
-  type = "string"
+  type = string
 }

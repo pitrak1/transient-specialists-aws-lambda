@@ -1,55 +1,55 @@
 variable "rest_api_id" {
-  type = "string"
+  type = string
 }
 
 variable "rest_api_root_resource_id" {
-  type = "string"
+  type = string
 }
 
 variable "resource_path" {
-  type = "string"
+  type = string
 }
 
 variable "delete_lambda_invoke_arn" {
-  type = "string"
+  type = string
 }
 
 variable "delete_lambda_function_name" {
-  type = "string"
+  type = string
 }
 
 variable "get_lambda_invoke_arn" {
-  type = "string"
+  type = string
 }
 
 variable "get_lambda_function_name" {
-  type = "string"
+  type = string
 }
 
 variable "patch_lambda_invoke_arn" {
-  type = "string"
+  type = string
 }
 
 variable "patch_lambda_function_name" {
-  type = "string"
+  type = string
 }
 
 variable "post_lambda_invoke_arn" {
-  type = "string"
+  type = string
 }
 
 variable "post_lambda_function_name" {
-  type = "string"
+  type = string
 }
 
 variable "origin" {
-  type = "string"
+  type = string
 }
 
 variable "region" {
-  type = "string"
+  type = string
 }
 
 variable "account_id" {
-  type = "string"
+  type = string
 }

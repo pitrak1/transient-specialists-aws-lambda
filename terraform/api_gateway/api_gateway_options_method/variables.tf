@@ -1,11 +1,11 @@
 variable "rest_api_id" {
-  type = "string"
+  type = string
 }
 
 variable "resource_id" {
-  type = "string"
+  type = string
 }
 
 variable "origin" {
-  type = "string"
+  type = string
 }

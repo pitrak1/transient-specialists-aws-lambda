@@ -1,27 +1,27 @@
 variable "function_name" {
-  type = "string"
+  type = string
 }
 
 variable "handler" {
-  type = "string"
+  type = string
 }
 
 variable "db_instance_address" {
-  type = "string"
+  type = string
 }
 
 variable "db_master_username" {
-  type = "string"
+  type = string
 }
 
 variable "db_master_password" {
-  type = "string"
+  type = string
 }
 
 variable "db_name" {
-  type = "string"
+  type = string
 }
 
 variable "lambda_log_group_name" {
-  type = "string"
+  type = string
 }

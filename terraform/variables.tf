@@ -1,23 +1,23 @@
 variable "db_master_username" {
-  type = "string"
+  type = string
 }
 
 variable "db_master_password" {
-  type = "string"
+  type = string
 }
 
 variable "db_name" {
-  type = "string"
+  type = string
 }
 
 variable "account_id" {
-  type = "string"
+  type = string
 }
 
 variable "region" {
-  type = "string"
+  type = string
 }
 
 variable "origin" {
-  type = "string"
+  type = string
 }

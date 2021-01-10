@@ -1,17 +1,17 @@
 
-resource "aws_api_gateway_method" "options_method" {
-  rest_api_id   = "${var.rest_api_id}"
-  resource_id   = "${var.resource_id}"
+resource aws_api_gateway_method "options_method" {
+  rest_api_id   = var.rest_api_id
+  resource_id   = var.resource_id
   http_method   = "OPTIONS"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "options_integration" {
-  rest_api_id          = "${var.rest_api_id}"
-  resource_id          = "${var.resource_id}"
-  http_method          = "${aws_api_gateway_method.options_method.http_method}"
+resource aws_api_gateway_integration "options_integration" {
+  rest_api_id          = var.rest_api_id
+  resource_id          = var.resource_id
+  http_method          = aws_api_gateway_method.options_method.http_method
   type                 = "MOCK"
-  depends_on           = ["aws_api_gateway_method.options_method"]
+  depends_on           = [aws_api_gateway_method.options_method]
   passthrough_behavior = "WHEN_NO_TEMPLATES"
 
   request_templates = {
@@ -23,10 +23,10 @@ EOF
   }
 }
 
-resource "aws_api_gateway_method_response" "options_method_response" {
-  rest_api_id = "${var.rest_api_id}"
-  resource_id = "${var.resource_id}"
-  http_method = "${aws_api_gateway_method.options_method.http_method}"
+resource aws_api_gateway_method_response "options_method_response" {
+  rest_api_id = var.rest_api_id
+  resource_id = var.resource_id
+  http_method = aws_api_gateway_method.options_method.http_method
   status_code = "200"
 
   response_parameters = {
@@ -39,20 +39,20 @@ resource "aws_api_gateway_method_response" "options_method_response" {
     "application/json" = "Empty"
   }
 
-  depends_on = ["aws_api_gateway_method.options_method"]
+  depends_on = [aws_api_gateway_method.options_method]
 }
 
-resource "aws_api_gateway_integration_response" "options_integration_response" {
-  rest_api_id = "${var.rest_api_id}"
-  resource_id = "${var.resource_id}"
-  http_method = "${aws_api_gateway_method.options_method.http_method}"
-  status_code = "${aws_api_gateway_method_response.options_method_response.status_code}"
+resource aws_api_gateway_integration_response "options_integration_response" {
+  rest_api_id = var.rest_api_id
+  resource_id = var.resource_id
+  http_method = aws_api_gateway_method.options_method.http_method
+  status_code = aws_api_gateway_method_response.options_method_response.status_code
 
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
     "method.response.header.Access-Control-Allow-Methods" = "'DELETE,GET,OPTIONS,PATCH,POST'",
-    "method.response.header.Access-Control-Allow-Origin"  = "${var.origin}"
+    "method.response.header.Access-Control-Allow-Origin"  = var.origin
   }
 
-  depends_on = ["aws_api_gateway_method_response.options_method_response", "aws_api_gateway_integration.options_integration"]
+  depends_on = [aws_api_gateway_method_response.options_method_response, aws_api_gateway_integration.options_integration]
 }
