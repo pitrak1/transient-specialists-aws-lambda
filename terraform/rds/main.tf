@@ -3,7 +3,7 @@ resource aws_db_instance "db_instance" {
   max_allocated_storage  = 100
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "10.6"
+  engine_version         = "10.13"
   deletion_protection    = "true"
   identifier             = var.db_identifier
   instance_class         = "db.t2.micro"
