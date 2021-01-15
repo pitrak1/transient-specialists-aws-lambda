@@ -1,5 +1,5 @@
 resource aws_s3_bucket "transient-specialists-files" {
-  bucket = "transient-specialists-files"
+  bucket = var.s3_bucket_name
   acl = "private"
 
   cors_rule {

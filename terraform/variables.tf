@@ -21,3 +21,7 @@ variable "region" {
 variable "origin" {
   type = string
 }
+
+variable "s3_bucket_name" {
+  type = string
+}
