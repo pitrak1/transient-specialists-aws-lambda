@@ -5,8 +5,8 @@ exports.get = event => `
 `
 
 exports.create = event => `
-  INSERT INTO Files (name, contents, equipment_id)
-  VALUES ('${event.name}', '${event.contents}', ${event.equipmentId});
+  INSERT INTO Files (name, equipment_id)
+  VALUES ('${event.name}', ${event.equipmentId});
 `
 
 exports.deleteById = event => `
@@ -15,7 +15,7 @@ exports.deleteById = event => `
 `
 
 exports.getByEquipmentId = event => `
-  SELECT id, name, equipment_id
+  SELECT *
   FROM Files
   WHERE Files.equipment_id = ${event.id};
 `
