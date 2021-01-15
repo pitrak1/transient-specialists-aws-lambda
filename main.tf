@@ -10,6 +10,7 @@ module "main" {
   account_id         = var.account_id
   region             = var.region
   origin             = var.origin
+  s3_bucket_name     = var.s3_bucket_name
 }
 
 variable "db_master_username" {
@@ -33,5 +34,9 @@ variable "region" {
 }
 
 variable "origin" {
+  type = string
+}
+
+variable "s3_bucket_name" {
   type = string
 }
